@@ -1,158 +1,215 @@
 const PROFESSIONS = [
     {
-        id: 'warrior',
-        name: 'Warrior',
-        icon: 'ti-sword',
-        description: 'Master of physical combat and battlefield endurance.',
-        skills: [
-            { level: 1, name: 'Fighting Style', description: 'Choose a combat style; gain its passive bonus.' },
-            { level: 2, name: 'Second Wind', description: 'Bonus action to regain 1d10 + level hit points once per rest.' },
-            { level: 3, name: 'Extra Attack', description: 'Attack twice whenever you take the Attack action.' }
+        "key": "defender",
+        "name": "Defender",
+        "title": "Stalwart guardian",
+        "signature": "One-handed & shield",
+        "description": "Anchors the battlefield with shield and steel, guarding allies, intercepting attacks, and provoking enemies to focus their fury on an unbreakable wall.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
         ]
     },
     {
-        id: 'guardian',
-        name: 'Guardian',
-        icon: 'ti-shield',
-        description: 'Stalwart protector through superior defensive mastery.',
-        skills: [
-            { level: 1, name: 'Shield Master', description: 'Use your shield to shove enemies; add its bonus to Dex saves.' },
-            { level: 2, name: 'Protection Stance', description: 'Impose disadvantage on attacks against adjacent allies.' },
-            { level: 3, name: 'Sentinel', description: 'Opportunity attacks reduce enemy speed to 0.' }
+        "key": "berserker",
+        "name": "Berserker",
+        "title": "Terror of the battlefield",
+        "signature": "Two-handed",
+        "description": "Overwhelms enemies with devastating blows, trading defense for raw destructive power.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
         ]
     },
     {
-        id: 'sharpshooter',
-        name: 'Sharpshooter',
-        icon: 'ti-crosshair',
-        description: 'Deadly ranged combatant with extreme precision.',
-        skills: [
-            { level: 1, name: 'Steady Aim', description: 'Ignore half and three-quarters cover on ranged attacks.' },
-            { level: 2, name: 'Precision Shot', description: 'Spend bonus action for advantage on next ranged attack.' },
-            { level: 3, name: 'Sharpshooter Strike', description: 'Take −5 to hit for +10 damage on ranged attacks.' }
+        "key": "trickster",
+        "name": "Trickster",
+        "title": "Stealth assassin",
+        "signature": "Backstab",
+        "description": "Relies on deception and agility to exploit openings and punish foes with precise, opportunistic strikes.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
         ]
     },
     {
-        id: 'spellblade',
-        name: 'Spellblade',
-        icon: 'ti-wand',
-        description: 'Arcane warrior who weaves magic into every strike.',
-        skills: [
-            { level: 1, name: 'Spellstrike', description: 'Deliver touch spells through weapon attacks.' },
-            { level: 2, name: 'Arcane Deflection', description: 'Use reaction to add Intelligence modifier to AC.' },
-            { level: 3, name: 'Power Surge', description: 'Store magical energy; spend charges for bonus force damage.' }
+        "key": "ranger",
+        "name": "Ranger",
+        "title": "Ranged skirmisher",
+        "signature": "Archery",
+        "description": "Hunts distant targets with precision, striking from afar and keeping enemies at bay.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
         ]
     },
     {
-        id: 'duelist',
-        name: 'Duelist',
-        icon: 'ti-swords',
-        description: 'Elegant single-combat specialist through precision technique.',
-        skills: [
-            { level: 1, name: 'Dueling Style', description: '+2 damage when wielding a single one-handed weapon.' },
-            { level: 2, name: 'Riposte', description: 'When an enemy misses you in melee, use reaction to attack.' },
-            { level: 3, name: 'Feinting Attack', description: 'Feint to gain advantage and add superiority die to damage.' }
+        "key": "striker",
+        "name": "Striker",
+        "title": "Close-quarters specialist",
+        "signature": "Martial arts",
+        "description": "Pressures enemies at close range, locking down single targets, deflecting projectiles with swift movements and harassing foes with fluid strikes.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
+        ]
+    },
+    {
+        "key": "luminary",
+        "name": "Luminary",
+        "title": "Radiant pyromancer",
+        "signature": "Fire & radiance",
+        "description": "Wields fire and radiance to scorch and blind enemies, ignite the battlefield and hasten allies.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
+        ]
+    },
+    {
+        "key": "weaver",
+        "name": "Weaver",
+        "title": "Thunderstorm sage",
+        "signature": "Air & electricity",
+        "description": "Manipulates air and electricity to strike foes with chain lightning, stun targets and reposition with teleportation.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
+        ]
+    },
+    {
+        "key": "mystic",
+        "name": "Mystic",
+        "title": "Frost & tide master",
+        "signature": "Water & ice",
+        "description": "Controls water and cold to freeze enemies, restrict movement and restore allies.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
+        ]
+    },
+    {
+        "key": "druid",
+        "name": "Druid",
+        "title": "Warden of the wild",
+        "signature": "Earth & poison",
+        "description": "Commands earth and poison to shape terrain, spread poison and fortify allies.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
+        ]
+    },
+    {
+        "key": "shaman",
+        "name": "Shaman",
+        "title": "Spirit dancer",
+        "signature": "Mind & necrotic",
+        "description": "Channels ritual chants and spiritual magic to curse enemies, spread madness and commune with restless spirits.",
+        "talents": [
+            { level: 1, name: "Talent 1", description: "A super cool talent." },
+            { level: 2, name: "Talent 2", description: "A super cool talent." },
+            { level: 3, name: "Talent 3", description: "A super cool talent." },
         ]
     }
-];
+]
 
-document.addEventListener('alpine:init', () => {
-    Alpine.data('characterBuilder', () => ({
+const MIN_LEVEL = 1;
+const MAX_LEVEL = 20;
+// Action Points (AP)
+const BASE_AP = 4;
+const EARN_AP = 4;
+const MAX_AP = 6;
+// Reaction Points (RP)
+const BASE_RP = 2;
+const MAX_RP = 4;
+// Movement (feet)
+const BASE_MOVEMENT = 10;
 
-        // ── State ───────────────────────────────────────────────────────────
-        characterName: '',
-        characterLevel: 1,
-        investedPoints: { warrior: 0, guardian: 0, sharpshooter: 0, spellblade: 0, duelist: 0 },
+const createCharacter = () => ({
+    name: "",
+    level: MIN_LEVEL,
+    professions: {},
+    talents: {},
+    skills: {},
+});
+
+function app() {
+    return {
+        key: "character-v1",
+        character: createCharacter(),
+
         professions: PROFESSIONS,
-        storageKey: 'dnd-char-builder-v1',
 
-        // ── Lifecycle ────────────────────────────────────────────────────────
-        init() {
-            this.load();
-            this.$watch('characterName', () => this.save());
-            this.$watch('characterLevel', () => this.save());
-            this.$watch('investedPoints', () => this.save(), { deep: true });
+        minLevel: MIN_LEVEL,
+        maxLevel: MAX_LEVEL,
+
+        baseAP: BASE_AP,
+        earnAP: EARN_AP,
+        maxAP: MAX_AP,
+
+        baseRP: BASE_RP,
+        maxRP: MAX_RP,
+
+        baseMovement: BASE_MOVEMENT,
+
+        // Level up
+        levelUp() {
+            if (this.character.level < this.maxLevel) {
+                this.character.level++;
+            }
         },
 
-        // ── Computed ─────────────────────────────────────────────────────────
-        get totalTrainingPoints() {
-            const l = this.characterLevel;
-            if (l >= 17) return 6;
-            if (l >= 11) return 5;
-            if (l >= 7) return 4;
-            if (l >= 5) return 3;
+        // Level down
+        levelDown() {
+            if (this.character.level > this.minLevel) {
+                this.character.level--;
+            }
+        },
+
+        get trainingPoints() {
+            const level = this.character.level;
+
+            if (level >= 17) return 8;
+            if (level >= 11) return 6;
+            if (level >= 5) return 4;
             return 2;
         },
 
-        get spentTrainingPoints() {
-            return Object.values(this.investedPoints).reduce((s, v) => s + v, 0);
+        get memorySlots() {
+            return 3 + Math.floor(this.character.level / 2);
         },
 
-        get remainingTrainingPoints() {
-            return this.totalTrainingPoints - this.spentTrainingPoints;
+        init() {
+            const saved = localStorage.getItem(this.key);
+
+            if (saved)
+                this.character = JSON.parse(saved);
         },
 
-        // Base 3, +1 per even level (2,4,6,8,10,12,14,16,18,20)
-        get totalMemorySlots() {
-            return 3 + Math.floor(this.characterLevel / 2);
-        },
-
-        get isOverBudget() {
-            return this.spentTrainingPoints > this.totalTrainingPoints;
-        },
-
-        // ── Profession helpers ───────────────────────────────────────────────
-        professionLevel(id) { return this.investedPoints[id] ?? 0; },
-
-        canInvest(id) {
-            return this.remainingTrainingPoints > 0 && this.professionLevel(id) < 3;
-        },
-
-        canRemove(id) { return this.professionLevel(id) > 0; },
-
-        invest(id) { if (this.canInvest(id)) this.investedPoints[id]++; },
-        remove(id) { if (this.canRemove(id)) this.investedPoints[id]--; },
-
-        isSkillUnlocked(id, skillLevel) {
-            return this.professionLevel(id) >= skillLevel;
-        },
-
-        // ── Persistence ──────────────────────────────────────────────────────
         save() {
             try {
-                localStorage.setItem(this.storageKey, JSON.stringify({
-                    characterName: this.characterName,
-                    characterLevel: this.characterLevel,
-                    investedPoints: { ...this.investedPoints }
-                }));
-            } catch (_) { }
-        },
-
-        load() {
-            try {
-                const raw = localStorage.getItem(this.storageKey);
-                if (!raw) return;
-                const d = JSON.parse(raw);
-                if (typeof d.characterName === 'string')
-                    this.characterName = d.characterName;
-                if (typeof d.characterLevel === 'number' && d.characterLevel >= 1 && d.characterLevel <= 20)
-                    this.characterLevel = d.characterLevel;
-                if (d.investedPoints && typeof d.investedPoints === 'object') {
-                    for (const id of Object.keys(this.investedPoints)) {
-                        const v = d.investedPoints[id];
-                        if (typeof v === 'number' && v >= 0 && v <= 3)
-                            this.investedPoints[id] = v;
-                    }
-                }
-            } catch (_) { }
+                localStorage.setItem(this.key, JSON.stringify(this.character));
+            } catch (error) {
+                console.error("Unable to save character", error);
+            }
         },
 
         reset() {
-            this.characterName = '';
-            this.characterLevel = 1;
-            for (const id of Object.keys(this.investedPoints)) this.investedPoints[id] = 0;
-            try { localStorage.removeItem(this.storageKey); } catch (_) { }
-        }
+            this.character = createCharacter();
+            try {
+                localStorage.removeItem(this.key);
+            } catch (error) {
+                console.error("Unable to reset character", error);
+            }
+        },
 
-    }));
-});
+    }
+}

@@ -1,14 +1,8 @@
-body {
-    font-family: 'Crimson Text', Georgia, 'Times New Roman', serif;
+.font-crimson-text {
+    font-family: 'Crimson Text', serif;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.cinzel {
+.font-cinzel {
     font-family: 'Cinzel', serif;
 }
 
