@@ -1,0 +1,63 @@
+body {
+    font-family: 'Crimson Text', Georgia, 'Times New Roman', serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.cinzel {
+    font-family: 'Cinzel', serif;
+}
+
+.glow-amber {
+    text-shadow:
+        0 0 10px rgba(251, 191, 36, 0.95),
+        0 0 30px rgba(251, 191, 36, 0.65),
+        0 0 60px rgba(251, 191, 36, 0.35),
+        0 0 100px rgba(251, 191, 36, 0.15);
+}
+
+.glow-red {
+    text-shadow:
+        0 0 10px rgba(239, 68, 68, 0.95),
+        0 0 30px rgba(239, 68, 68, 0.65),
+        0 0 60px rgba(239, 68, 68, 0.35);
+}
+
+.glow-blue {
+    text-shadow:
+        0 0 10px rgba(96, 165, 250, 0.95),
+        0 0 30px rgba(96, 165, 250, 0.65),
+        0 0 60px rgba(96, 165, 250, 0.35);
+}
+
+.skill-row {
+    transition: background-color 0.25s ease, opacity 0.25s ease;
+}
+
+.dot-fill {
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dot-fill.active {
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.7);
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+[x-cloak] {
+    display: none !important;
+}

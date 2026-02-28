@@ -1,594 +1,288 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>D&D 5e Character Builder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D 5e Character Builder</title>
 
-  <!-- Fonts: Cinzel (headings) + Crimson Text (body serif) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Fonts: Cinzel (headings) + Crimson Text (body serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
-  <!-- Tabler Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.24.0/dist/tabler-icons.min.css">
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.24.0/dist/tabler-icons.min.css">
 
-  <!-- DaisyUI + Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- DaisyUI + Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-  <!-- Alpine.js -->
-  <script src="https://unpkg.com/alpinejs" defer></script>
+    <!-- Alpine.js -->
+    <script src="https://unpkg.com/alpinejs" defer></script>
 
-  <style>
-    body {
-      font-family: 'Crimson Text', Georgia, 'Times New Roman', serif;
-    }
-    h1, h2, h3, h4, h5, h6, .cinzel {
-      font-family: 'Cinzel', serif;
-    }
-    .glow-amber {
-      text-shadow:
-        0 0 10px rgba(251, 191, 36, 0.95),
-        0 0 30px rgba(251, 191, 36, 0.65),
-        0 0 60px rgba(251, 191, 36, 0.35),
-        0 0 100px rgba(251, 191, 36, 0.15);
-    }
-    .glow-red {
-      text-shadow:
-        0 0 10px rgba(239, 68, 68, 0.95),
-        0 0 30px rgba(239, 68, 68, 0.65),
-        0 0 60px rgba(239, 68, 68, 0.35);
-    }
-    .glow-blue {
-      text-shadow:
-        0 0 10px rgba(96, 165, 250, 0.95),
-        0 0 30px rgba(96, 165, 250, 0.65),
-        0 0 60px rgba(96, 165, 250, 0.35);
-    }
-    .skill-row {
-      transition: background-color 0.25s ease, opacity 0.25s ease;
-    }
-    .dot-fill {
-      transition: background-color 0.25s ease, box-shadow 0.25s ease;
-    }
-    .dot-fill.active {
-      box-shadow: 0 0 8px rgba(251, 191, 36, 0.7);
-    }
-    @keyframes fadeSlideIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    [x-cloak] { display: none !important; }
-  </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body
-  x-data="characterBuilder"
-  x-cloak
-  class="min-h-screen text-gray-200"
-  style="background: linear-gradient(160deg, #050508 0%, #0f1117 35%, #111827 65%, #080b10 100%);"
->
+<body x-data="characterBuilder" x-cloak class="min-h-screen text-gray-200" style="background: linear-gradient(160deg, #050508 0%, #0f1117 35%, #111827 65%, #080b10 100%);">
 
-  <!-- ═══════════════════════════════════════════════════════════════
+    <!-- ═══════════════════════════════════════════════════════════════
        HEADER
   ════════════════════════════════════════════════════════════════ -->
-  <header
-    class="relative overflow-hidden py-8 px-6 border-b border-amber-900/30"
-    style="background: linear-gradient(180deg, rgba(92,40,5,0.25) 0%, rgba(17,24,39,0.0) 100%);"
-  >
-    <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
-      <div class="flex items-center gap-4">
-        <i class="ti ti-chess-knight text-amber-400 text-5xl drop-shadow-lg" style="text-shadow: 0 0 20px rgba(251,191,36,0.5);"></i>
-        <div>
-          <h1 class="cinzel text-3xl font-black text-amber-400 tracking-wide" style="text-shadow: 0 0 30px rgba(251,191,36,0.3);">
-            Character Builder
-          </h1>
-          <p class="text-gray-500 text-sm mt-0.5 font-light tracking-widest uppercase">D&amp;D 5e · Homebrew System</p>
+    <header class="relative overflow-hidden py-8 px-6 border-b border-amber-900/30" style="background: linear-gradient(180deg, rgba(92,40,5,0.25) 0%, rgba(17,24,39,0.0) 100%);">
+        <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <i class="ti ti-chess-knight text-amber-400 text-5xl drop-shadow-lg" style="text-shadow: 0 0 20px rgba(251,191,36,0.5);"></i>
+                <div>
+                    <h1 class="cinzel text-3xl font-black text-amber-400 tracking-wide" style="text-shadow: 0 0 30px rgba(251,191,36,0.3);">
+                        Character Builder
+                    </h1>
+                    <p class="text-gray-500 text-sm mt-0.5 font-light tracking-widest uppercase">D&amp;D 5e · Homebrew System</p>
+                </div>
+            </div>
+
+            <button class="btn btn-ghost btn-sm cinzel text-gray-500 border border-gray-800 hover:border-red-900 hover:text-red-400 transition-colors" @click="reset()" title="Reset character">
+                <i class="ti ti-refresh text-sm"></i>
+                Reset
+            </button>
         </div>
-      </div>
 
-      <button
-        class="btn btn-ghost btn-sm cinzel text-gray-500 border border-gray-800 hover:border-red-900 hover:text-red-400 transition-colors"
-        @click="reset()"
-        title="Reset character"
-      >
-        <i class="ti ti-refresh text-sm"></i>
-        Reset
-      </button>
-    </div>
+        <!-- Decorative amber glow line -->
+        <div class="absolute bottom-0 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(251,191,36,0.4), transparent);"></div>
+    </header>
 
-    <!-- Decorative amber glow line -->
-    <div class="absolute bottom-0 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(251,191,36,0.4), transparent);"></div>
-  </header>
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
 
-  <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
-
-    <!-- ═══════════════════════════════════════════════════════════════
+        <!-- ═══════════════════════════════════════════════════════════════
          CHARACTER INFO
     ════════════════════════════════════════════════════════════════ -->
-    <div
-      class="card border border-gray-700/60"
-      style="background: linear-gradient(135deg, rgba(30,27,20,0.95) 0%, rgba(17,24,39,0.95) 100%); border-color: rgba(120,83,15,0.35);"
-    >
-      <div class="card-body gap-6 py-6">
-        <h2 class="cinzel text-lg font-bold text-amber-400/90 flex items-center gap-2">
-          <i class="ti ti-user-circle text-amber-500/70"></i>
-          Character
-        </h2>
+        <div class="card border border-gray-700/60" style="background: linear-gradient(135deg, rgba(30,27,20,0.95) 0%, rgba(17,24,39,0.95) 100%); border-color: rgba(120,83,15,0.35);">
+            <div class="card-body gap-6 py-6">
+                <h2 class="cinzel text-lg font-bold text-amber-400/90 flex items-center gap-2">
+                    <i class="ti ti-user-circle text-amber-500/70"></i>
+                    Character
+                </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <!-- Name -->
-          <div class="form-control">
-            <label class="label pb-1">
-              <span class="label-text cinzel text-xs uppercase tracking-widest text-gray-400">Name</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter character name…"
-              maxlength="40"
-              x-model="characterName"
-              class="input input-bordered text-lg w-full transition-colors duration-200"
-              style="background: rgba(0,0,0,0.4); border-color: rgba(120,83,15,0.4);"
-              onfocus="this.style.borderColor='rgba(251,191,36,0.6)'"
-              onblur="this.style.borderColor='rgba(120,83,15,0.4)'"
-            />
-          </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- Name -->
+                    <div class="form-control">
+                        <label class="label pb-1">
+                            <span class="label-text cinzel text-xs uppercase tracking-widest text-gray-400">Name</span>
+                        </label>
+                        <input type="text" placeholder="Enter character name…" maxlength="40" x-model="characterName" class="input input-bordered text-lg w-full transition-colors duration-200" style="background: rgba(0,0,0,0.4); border-color: rgba(120,83,15,0.4);" onfocus="this.style.borderColor='rgba(251,191,36,0.6)'" onblur="this.style.borderColor='rgba(120,83,15,0.4)'" />
+                    </div>
 
-          <!-- Level -->
-          <div class="form-control">
-            <label class="label pb-1">
-              <span class="label-text cinzel text-xs uppercase tracking-widest text-gray-400">
-                <i class="ti ti-crown text-amber-600 mr-1"></i>Level
-              </span>
-            </label>
-            <input
-              type="number"
-              min="1"
-              max="20"
-              x-model.number="characterLevel"
-              class="input input-bordered text-lg w-full transition-colors duration-200"
-              style="background: rgba(0,0,0,0.4); border-color: rgba(120,83,15,0.4);"
-              onfocus="this.style.borderColor='rgba(251,191,36,0.6)'"
-              onblur="this.style.borderColor='rgba(120,83,15,0.4)'"
-            />
-          </div>
+                    <!-- Level -->
+                    <div class="form-control">
+                        <label class="label pb-1">
+                            <span class="label-text cinzel text-xs uppercase tracking-widest text-gray-400">
+                                <i class="ti ti-crown text-amber-600 mr-1"></i>Level
+                            </span>
+                        </label>
+                        <input type="number" min="1" max="20" x-model.number="characterLevel" class="input input-bordered text-lg w-full transition-colors duration-200" style="background: rgba(0,0,0,0.4); border-color: rgba(120,83,15,0.4);" onfocus="this.style.borderColor='rgba(251,191,36,0.6)'" onblur="this.style.borderColor='rgba(120,83,15,0.4)'" />
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════
+        <!-- ═══════════════════════════════════════════════════════════════
          STATS ROW — Training Points + Memory Slots
     ════════════════════════════════════════════════════════════════ -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      <!-- Training Points -->
-      <div
-        class="card border-2 relative overflow-hidden"
-        :class="isOverBudget
+            <!-- Training Points -->
+            <div class="card border-2 relative overflow-hidden" :class="isOverBudget
           ? 'border-red-700/70'
-          : 'border-amber-800/40'"
-        style="background: linear-gradient(135deg, rgba(20,14,5,0.97) 0%, rgba(17,24,39,0.97) 100%);"
-      >
-        <div class="card-body items-center text-center gap-3 py-10">
-          <div class="flex items-center gap-2 mb-1">
-            <i class="ti ti-star-filled text-amber-400 text-xl"></i>
-            <h3 class="cinzel text-base font-bold text-gray-300 uppercase tracking-widest">Training Points</h3>
-          </div>
+          : 'border-amber-800/40'" style="background: linear-gradient(135deg, rgba(20,14,5,0.97) 0%, rgba(17,24,39,0.97) 100%);">
+                <div class="card-body items-center text-center gap-3 py-10">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="ti ti-star-filled text-amber-400 text-xl"></i>
+                        <h3 class="cinzel text-base font-bold text-gray-300 uppercase tracking-widest">Training Points</h3>
+                    </div>
 
-          <!-- Big glowing remaining count -->
-          <div
-            class="text-9xl font-thin cinzel leading-none transition-all duration-500 select-none"
-            :class="isOverBudget ? 'text-red-400 glow-red' : 'text-amber-400 glow-amber'"
-            x-text="remainingTrainingPoints < 0 ? remainingTrainingPoints : remainingTrainingPoints"
-          ></div>
+                    <!-- Big glowing remaining count -->
+                    <div class="text-9xl font-thin cinzel leading-none transition-all duration-500 select-none" :class="isOverBudget ? 'text-red-400 glow-red' : 'text-amber-400 glow-amber'" x-text="remainingTrainingPoints < 0 ? remainingTrainingPoints : remainingTrainingPoints"></div>
 
-          <p class="text-gray-500 text-sm">
-            remaining of
-            <span class="text-amber-300 font-semibold cinzel" x-text="totalTrainingPoints"></span>
-            total
-          </p>
+                    <p class="text-gray-500 text-sm">
+                        remaining of
+                        <span class="text-amber-300 font-semibold cinzel" x-text="totalTrainingPoints"></span>
+                        total
+                    </p>
 
-          <!-- Spent dot track -->
-          <div class="flex gap-2 mt-1 flex-wrap justify-center">
-            <template x-for="n in totalTrainingPoints" :key="n">
-              <div
-                class="w-4 h-4 rounded-full border dot-fill transition-all duration-300"
-                :class="[
+                    <!-- Spent dot track -->
+                    <div class="flex gap-2 mt-1 flex-wrap justify-center">
+                        <template x-for="n in totalTrainingPoints" :key="n">
+                            <div class="w-4 h-4 rounded-full border dot-fill transition-all duration-300" :class="[
                   n <= spentTrainingPoints
                     ? 'bg-amber-400 border-amber-400 active'
                     : 'bg-gray-800 border-gray-600'
-                ]"
-              ></div>
-            </template>
-          </div>
+                ]"></div>
+                        </template>
+                    </div>
 
-          <!-- Over-budget inline badge -->
-          <div x-show="isOverBudget" x-transition class="badge badge-error gap-1 mt-1">
-            <i class="ti ti-alert-triangle text-xs"></i>
-            Over by <span class="font-bold ml-0.5" x-text="spentTrainingPoints - totalTrainingPoints"></span>
-          </div>
+                    <!-- Over-budget inline badge -->
+                    <div x-show="isOverBudget" x-transition class="badge badge-error gap-1 mt-1">
+                        <i class="ti ti-alert-triangle text-xs"></i>
+                        Over by <span class="font-bold ml-0.5" x-text="spentTrainingPoints - totalTrainingPoints"></span>
+                    </div>
 
-          <!-- Level milestones hint -->
-          <div class="text-xs text-gray-600 mt-2 cinzel tracking-wide">
-            Gains at Lvl 5 · 7 · 11 · 17
-          </div>
+                    <!-- Level milestones hint -->
+                    <div class="text-xs text-gray-600 mt-2 cinzel tracking-wide">
+                        Gains at Lvl 5 · 7 · 11 · 17
+                    </div>
+                </div>
+
+                <!-- Ambient glow -->
+                <div class="absolute -bottom-12 -right-12 w-48 h-48 rounded-full blur-3xl pointer-events-none transition-colors duration-500" :class="isOverBudget ? 'bg-red-600/15' : 'bg-amber-500/10'"></div>
+            </div>
+
+            <!-- Memory Slots -->
+            <div class="card border-2 border-blue-900/50 relative overflow-hidden" style="background: linear-gradient(135deg, rgba(5,10,25,0.97) 0%, rgba(17,24,39,0.97) 100%);">
+                <div class="card-body items-center text-center gap-3 py-10">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="ti ti-brain text-blue-400 text-xl"></i>
+                        <h3 class="cinzel text-base font-bold text-gray-300 uppercase tracking-widest">Memory Slots</h3>
+                    </div>
+
+                    <!-- Big glowing number -->
+                    <div class="text-9xl font-thin cinzel leading-none text-blue-400 glow-blue select-none transition-all duration-500" x-text="totalMemorySlots"></div>
+
+                    <p class="text-gray-500 text-sm">available slots</p>
+
+                    <!-- Slot grid -->
+                    <div class="flex flex-wrap gap-1.5 mt-1 justify-center max-w-56">
+                        <template x-for="n in totalMemorySlots" :key="n">
+                            <div class="w-3.5 h-3.5 rounded-sm border border-blue-500/40 transition-all duration-300" :style="`background: rgba(96,165,250,${0.25 + (n / totalMemorySlots) * 0.35}); animation-delay: ${n * 50}ms`"></div>
+                        </template>
+                    </div>
+
+                    <p class="text-xs text-gray-600 mt-1 cinzel tracking-wide">
+                        Base 3 + <span class="text-blue-400" x-text="totalMemorySlots - 3"></span> from even levels
+                    </p>
+
+                    <div class="text-xs text-gray-600 cinzel tracking-wide">
+                        Gains at Lvl 2 · 4 · 6 · 8 · 10 · 12 · 14 · 16 · 18 · 20
+                    </div>
+                </div>
+
+                <!-- Ambient glow -->
+                <div class="absolute -bottom-12 -right-12 w-48 h-48 rounded-full blur-3xl pointer-events-none bg-blue-600/10"></div>
+            </div>
         </div>
 
-        <!-- Ambient glow -->
-        <div
-          class="absolute -bottom-12 -right-12 w-48 h-48 rounded-full blur-3xl pointer-events-none transition-colors duration-500"
-          :class="isOverBudget ? 'bg-red-600/15' : 'bg-amber-500/10'"
-        ></div>
-      </div>
-
-      <!-- Memory Slots -->
-      <div
-        class="card border-2 border-blue-900/50 relative overflow-hidden"
-        style="background: linear-gradient(135deg, rgba(5,10,25,0.97) 0%, rgba(17,24,39,0.97) 100%);"
-      >
-        <div class="card-body items-center text-center gap-3 py-10">
-          <div class="flex items-center gap-2 mb-1">
-            <i class="ti ti-brain text-blue-400 text-xl"></i>
-            <h3 class="cinzel text-base font-bold text-gray-300 uppercase tracking-widest">Memory Slots</h3>
-          </div>
-
-          <!-- Big glowing number -->
-          <div
-            class="text-9xl font-thin cinzel leading-none text-blue-400 glow-blue select-none transition-all duration-500"
-            x-text="totalMemorySlots"
-          ></div>
-
-          <p class="text-gray-500 text-sm">available slots</p>
-
-          <!-- Slot grid -->
-          <div class="flex flex-wrap gap-1.5 mt-1 justify-center max-w-56">
-            <template x-for="n in totalMemorySlots" :key="n">
-              <div
-                class="w-3.5 h-3.5 rounded-sm border border-blue-500/40 transition-all duration-300"
-                :style="`background: rgba(96,165,250,${0.25 + (n / totalMemorySlots) * 0.35}); animation-delay: ${n * 50}ms`"
-              ></div>
-            </template>
-          </div>
-
-          <p class="text-xs text-gray-600 mt-1 cinzel tracking-wide">
-            Base 3 + <span class="text-blue-400" x-text="totalMemorySlots - 3"></span> from even levels
-          </p>
-
-          <div class="text-xs text-gray-600 cinzel tracking-wide">
-            Gains at Lvl 2 · 4 · 6 · 8 · 10 · 12 · 14 · 16 · 18 · 20
-          </div>
+        <!-- Over-budget banner -->
+        <div x-show="isOverBudget" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="alert border border-red-800 bg-red-950/60" role="alert">
+            <i class="ti ti-alert-circle text-red-400 text-xl flex-shrink-0"></i>
+            <div>
+                <p class="cinzel font-bold text-red-300">Training Points Exceeded</p>
+                <p class="text-sm text-red-400/80">
+                    Your level dropped below your invested points. Remove
+                    <strong x-text="spentTrainingPoints - totalTrainingPoints"></strong>
+                    point(s) to stay within budget.
+                </p>
+            </div>
         </div>
 
-        <!-- Ambient glow -->
-        <div class="absolute -bottom-12 -right-12 w-48 h-48 rounded-full blur-3xl pointer-events-none bg-blue-600/10"></div>
-      </div>
-    </div>
-
-    <!-- Over-budget banner -->
-    <div
-      x-show="isOverBudget"
-      x-transition:enter="transition ease-out duration-300"
-      x-transition:enter-start="opacity-0 -translate-y-2"
-      x-transition:enter-end="opacity-100 translate-y-0"
-      class="alert border border-red-800 bg-red-950/60"
-      role="alert"
-    >
-      <i class="ti ti-alert-circle text-red-400 text-xl flex-shrink-0"></i>
-      <div>
-        <p class="cinzel font-bold text-red-300">Training Points Exceeded</p>
-        <p class="text-sm text-red-400/80">
-          Your level dropped below your invested points. Remove
-          <strong x-text="spentTrainingPoints - totalTrainingPoints"></strong>
-          point(s) to stay within budget.
-        </p>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════
+        <!-- ═══════════════════════════════════════════════════════════════
          PROFESSIONS GRID
     ════════════════════════════════════════════════════════════════ -->
-    <div>
-      <h2 class="cinzel text-xl font-bold text-amber-400 mb-6 flex items-center gap-3">
-        <i class="ti ti-swords text-amber-500/80 text-2xl"></i>
-        Combat Professions
-        <span class="text-sm font-normal text-gray-600 cinzel normal-case tracking-normal ml-1">
-          — invest points to unlock skills
-        </span>
-      </h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-        <template x-for="profession in professions" :key="profession.id">
-          <div
-            class="card border-2 p-1 flex flex-col transition-all duration-300"
-            :class="professionLevel(profession.id) > 0
-              ? 'border-amber-700/55 shadow-lg'
-              : 'border-gray-800'"
-            :style="professionLevel(profession.id) > 0
-              ? 'background: linear-gradient(155deg, rgba(30,22,5,0.97) 0%, rgba(17,24,39,0.97) 100%); box-shadow: 0 8px 32px rgba(120,53,15,0.25);'
-              : 'background: linear-gradient(155deg, rgba(20,20,25,0.97) 0%, rgba(17,24,39,0.97) 100%);'"
-          >
-            <div class="card-body gap-4">
-
-              <!-- Profession header -->
-              <div class="flex items-start gap-3">
-                <div
-                  class="w-11 h-11 flex items-center justify-center text-xl border flex-shrink-0 transition-all duration-300"
-                  :class="professionLevel(profession.id) > 0
-                    ? 'border-amber-700/50 bg-amber-900/30 text-amber-400'
-                    : 'border-gray-700 bg-gray-800/60 text-gray-500'"
-                >
-                  <i :class="'ti ' + profession.icon"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <h3
-                    class="cinzel text-sm font-bold leading-tight transition-colors duration-300"
-                    :class="professionLevel(profession.id) > 0 ? 'text-amber-300' : 'text-gray-300'"
-                    x-text="profession.name"
-                  ></h3>
-                  <p class="text-xs text-gray-600 mt-0.5 leading-relaxed" x-text="profession.description"></p>
-                </div>
-              </div>
-
-              <!-- Level dots -->
-              <div class="flex items-center gap-2">
-                <span class="cinzel text-xs font-bold text-gray-600 uppercase tracking-wider w-12">
-                  Lvl <span x-text="professionLevel(profession.id)"></span>
+        <div>
+            <h2 class="cinzel text-xl font-bold text-amber-400 mb-6 flex items-center gap-3">
+                <i class="ti ti-swords text-amber-500/80 text-2xl"></i>
+                Combat Professions
+                <span class="text-sm font-normal text-gray-600 cinzel normal-case tracking-normal ml-1">
+                    — invest points to unlock skills
                 </span>
-                <div class="flex gap-1.5">
-                  <template x-for="dot in 3" :key="dot">
-                    <div
-                      class="w-3.5 h-3.5 rounded-full border dot-fill transition-all duration-300"
-                      :class="dot <= professionLevel(profession.id)
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                <template x-for="profession in professions" :key="profession.id">
+                    <div class="card border-2 p-1 flex flex-col transition-all duration-300" :class="professionLevel(profession.id) > 0
+              ? 'border-amber-700/55 shadow-lg'
+              : 'border-gray-800'" :style="professionLevel(profession.id) > 0
+              ? 'background: linear-gradient(155deg, rgba(30,22,5,0.97) 0%, rgba(17,24,39,0.97) 100%); box-shadow: 0 8px 32px rgba(120,53,15,0.25);'
+              : 'background: linear-gradient(155deg, rgba(20,20,25,0.97) 0%, rgba(17,24,39,0.97) 100%);'">
+                        <div class="card-body gap-4">
+
+                            <!-- Profession header -->
+                            <div class="flex items-start gap-3">
+                                <div class="w-11 h-11 flex items-center justify-center text-xl border flex-shrink-0 transition-all duration-300" :class="professionLevel(profession.id) > 0
+                    ? 'border-amber-700/50 bg-amber-900/30 text-amber-400'
+                    : 'border-gray-700 bg-gray-800/60 text-gray-500'">
+                                    <i :class="'ti ' + profession.icon"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="cinzel text-sm font-bold leading-tight transition-colors duration-300" :class="professionLevel(profession.id) > 0 ? 'text-amber-300' : 'text-gray-300'" x-text="profession.name"></h3>
+                                    <p class="text-xs text-gray-600 mt-0.5 leading-relaxed" x-text="profession.description"></p>
+                                </div>
+                            </div>
+
+                            <!-- Level dots -->
+                            <div class="flex items-center gap-2">
+                                <span class="cinzel text-xs font-bold text-gray-600 uppercase tracking-wider w-12">
+                                    Lvl <span x-text="professionLevel(profession.id)"></span>
+                                </span>
+                                <div class="flex gap-1.5">
+                                    <template x-for="dot in 3" :key="dot">
+                                        <div class="w-3.5 h-3.5 rounded-full border dot-fill transition-all duration-300" :class="dot <= professionLevel(profession.id)
                         ? 'bg-amber-400 border-amber-400 active'
-                        : 'bg-gray-800 border-gray-700'"
-                    ></div>
-                  </template>
-                </div>
-              </div>
+                        : 'bg-gray-800 border-gray-700'"></div>
+                                    </template>
+                                </div>
+                            </div>
 
-              <!-- Invest / Remove -->
-              <div class="flex gap-2">
-                <button
-                  class="btn btn-sm flex-1 cinzel font-bold tracking-wide transition-all duration-200"
-                  :class="canInvest(profession.id)
+                            <!-- Invest / Remove -->
+                            <div class="flex gap-2">
+                                <button class="btn btn-sm flex-1 cinzel font-bold tracking-wide transition-all duration-200" :class="canInvest(profession.id)
                     ? 'btn-warning text-gray-900 hover:scale-105 hover:shadow-lg hover:shadow-amber-900/40'
-                    : 'btn-ghost text-gray-700 cursor-not-allowed'"
-                  :disabled="!canInvest(profession.id)"
-                  @click="invest(profession.id)"
-                >
-                  <i class="ti ti-plus text-xs"></i> Invest
-                </button>
-                <button
-                  class="btn btn-sm flex-1 cinzel tracking-wide transition-all duration-200"
-                  :class="canRemove(profession.id)
+                    : 'btn-ghost text-gray-700 cursor-not-allowed'" :disabled="!canInvest(profession.id)" @click="invest(profession.id)">
+                                    <i class="ti ti-plus text-xs"></i> Invest
+                                </button>
+                                <button class="btn btn-sm flex-1 cinzel tracking-wide transition-all duration-200" :class="canRemove(profession.id)
                     ? 'btn-outline btn-warning hover:scale-105'
-                    : 'btn-ghost text-gray-700 cursor-not-allowed'"
-                  :disabled="!canRemove(profession.id)"
-                  @click="remove(profession.id)"
-                >
-                  <i class="ti ti-minus text-xs"></i> Remove
-                </button>
-              </div>
+                    : 'btn-ghost text-gray-700 cursor-not-allowed'" :disabled="!canRemove(profession.id)" @click="remove(profession.id)">
+                                    <i class="ti ti-minus text-xs"></i> Remove
+                                </button>
+                            </div>
 
-              <div class="divider my-0 opacity-20"></div>
+                            <div class="divider my-0 opacity-20"></div>
 
-              <!-- Skills list -->
-              <ul class="space-y-1.5">
-                <template x-for="skill in profession.skills" :key="skill.level">
-                  <li
-                    class="skill-row flex items-center gap-2 rounded-md px-2 py-1.5"
-                    :class="isSkillUnlocked(profession.id, skill.level)
+                            <!-- Skills list -->
+                            <ul class="space-y-1.5">
+                                <template x-for="skill in profession.skills" :key="skill.level">
+                                    <li class="skill-row flex items-center gap-2 rounded-md px-2 py-1.5" :class="isSkillUnlocked(profession.id, skill.level)
                       ? 'bg-amber-900/15 border border-amber-800/25 opacity-100'
-                      : 'opacity-55'"
-                  >
-                    <div
-                      class="flex-shrink-0 w-5 h-5 flex items-center justify-center border text-xs transition-all duration-200"
-                      :class="isSkillUnlocked(profession.id, skill.level)
+                      : 'opacity-55'">
+                                        <div class="flex-shrink-0 w-5 h-5 flex items-center justify-center border text-xs transition-all duration-200" :class="isSkillUnlocked(profession.id, skill.level)
                         ? 'border-amber-600/50 bg-amber-900/30 text-amber-400'
-                        : 'border-gray-700 bg-gray-800/40 text-gray-600'"
-                    >
-                      <i :class="isSkillUnlocked(profession.id, skill.level) ? 'ti ti-check' : 'ti ti-lock'"></i>
+                        : 'border-gray-700 bg-gray-800/40 text-gray-600'">
+                                            <i :class="isSkillUnlocked(profession.id, skill.level) ? 'ti ti-check' : 'ti ti-lock'"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-baseline gap-1.5">
+                                                <span class="cinzel text-xs font-bold transition-colors duration-200" :class="isSkillUnlocked(profession.id, skill.level) ? 'text-amber-500' : 'text-gray-600'" x-text="'Lvl ' + skill.level"></span>
+                                                <span class="text-xs font-semibold transition-colors duration-200" :class="isSkillUnlocked(profession.id, skill.level) ? 'text-gray-200' : 'text-gray-500'" x-text="skill.name"></span>
+                                            </div>
+                                            <p class="text-xs leading-relaxed mt-0.5 transition-colors duration-200" :class="isSkillUnlocked(profession.id, skill.level) ? 'text-gray-500' : 'text-gray-700'" x-text="skill.description"></p>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+
+                        </div>
                     </div>
-                    <div class="flex-1 min-w-0">
-                      <div class="flex items-baseline gap-1.5">
-                        <span
-                          class="cinzel text-xs font-bold transition-colors duration-200"
-                          :class="isSkillUnlocked(profession.id, skill.level) ? 'text-amber-500' : 'text-gray-600'"
-                          x-text="'Lvl ' + skill.level"
-                        ></span>
-                        <span
-                          class="text-xs font-semibold transition-colors duration-200"
-                          :class="isSkillUnlocked(profession.id, skill.level) ? 'text-gray-200' : 'text-gray-500'"
-                          x-text="skill.name"
-                        ></span>
-                      </div>
-                      <p
-                        class="text-xs leading-relaxed mt-0.5 transition-colors duration-200"
-                        :class="isSkillUnlocked(profession.id, skill.level) ? 'text-gray-500' : 'text-gray-700'"
-                        x-text="skill.description"
-                      ></p>
-                    </div>
-                  </li>
                 </template>
-              </ul>
-
             </div>
-          </div>
-        </template>
-      </div>
-    </div>
+        </div>
 
-  </main>
+    </main>
 
-  <footer class="border-t border-gray-800/60 py-5 text-center mt-8" style="background: rgba(0,0,0,0.3);">
-    <p class="cinzel text-gray-700 text-xs tracking-widest uppercase">
-      D&amp;D 5e Character Builder &mdash; Changes saved automatically
-    </p>
-  </footer>
+    <footer class="border-t border-gray-800/60 py-5 text-center mt-8" style="background: rgba(0,0,0,0.3);">
+        <p class="cinzel text-gray-700 text-xs tracking-widest uppercase">
+            D&amp;D 5e Character Builder &mdash; Changes saved automatically
+        </p>
+    </footer>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       ALPINE.JS DATA
-  ════════════════════════════════════════════════════════════════ -->
-  <script>
-    const PROFESSIONS = [
-      {
-        id: 'warrior',
-        name: 'Warrior',
-        icon: 'ti-sword',
-        description: 'Master of physical combat and battlefield endurance.',
-        skills: [
-          { level: 1, name: 'Fighting Style', description: 'Choose a combat style; gain its passive bonus.' },
-          { level: 2, name: 'Second Wind',    description: 'Bonus action to regain 1d10 + level hit points once per rest.' },
-          { level: 3, name: 'Extra Attack',   description: 'Attack twice whenever you take the Attack action.' }
-        ]
-      },
-      {
-        id: 'guardian',
-        name: 'Guardian',
-        icon: 'ti-shield',
-        description: 'Stalwart protector through superior defensive mastery.',
-        skills: [
-          { level: 1, name: 'Shield Master',     description: 'Use your shield to shove enemies; add its bonus to Dex saves.' },
-          { level: 2, name: 'Protection Stance', description: 'Impose disadvantage on attacks against adjacent allies.' },
-          { level: 3, name: 'Sentinel',          description: 'Opportunity attacks reduce enemy speed to 0.' }
-        ]
-      },
-      {
-        id: 'sharpshooter',
-        name: 'Sharpshooter',
-        icon: 'ti-crosshair',
-        description: 'Deadly ranged combatant with extreme precision.',
-        skills: [
-          { level: 1, name: 'Steady Aim',          description: 'Ignore half and three-quarters cover on ranged attacks.' },
-          { level: 2, name: 'Precision Shot',      description: 'Spend bonus action for advantage on next ranged attack.' },
-          { level: 3, name: 'Sharpshooter Strike', description: 'Take −5 to hit for +10 damage on ranged attacks.' }
-        ]
-      },
-      {
-        id: 'spellblade',
-        name: 'Spellblade',
-        icon: 'ti-wand',
-        description: 'Arcane warrior who weaves magic into every strike.',
-        skills: [
-          { level: 1, name: 'Spellstrike',       description: 'Deliver touch spells through weapon attacks.' },
-          { level: 2, name: 'Arcane Deflection', description: 'Use reaction to add Intelligence modifier to AC.' },
-          { level: 3, name: 'Power Surge',       description: 'Store magical energy; spend charges for bonus force damage.' }
-        ]
-      },
-      {
-        id: 'duelist',
-        name: 'Duelist',
-        icon: 'ti-swords',
-        description: 'Elegant single-combat specialist through precision technique.',
-        skills: [
-          { level: 1, name: 'Dueling Style',   description: '+2 damage when wielding a single one-handed weapon.' },
-          { level: 2, name: 'Riposte',         description: 'When an enemy misses you in melee, use reaction to attack.' },
-          { level: 3, name: 'Feinting Attack', description: 'Feint to gain advantage and add superiority die to damage.' }
-        ]
-      }
-    ];
-
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('characterBuilder', () => ({
-
-        // ── State ───────────────────────────────────────────────────────────
-        characterName:  '',
-        characterLevel: 1,
-        investedPoints: { warrior: 0, guardian: 0, sharpshooter: 0, spellblade: 0, duelist: 0 },
-        professions:    PROFESSIONS,
-        storageKey:     'dnd-char-builder-v1',
-
-        // ── Lifecycle ────────────────────────────────────────────────────────
-        init() {
-          this.load();
-          this.$watch('characterName',  () => this.save());
-          this.$watch('characterLevel', () => this.save());
-          this.$watch('investedPoints', () => this.save(), { deep: true });
-        },
-
-        // ── Computed ─────────────────────────────────────────────────────────
-        get totalTrainingPoints() {
-          const l = this.characterLevel;
-          if (l >= 17) return 6;
-          if (l >= 11) return 5;
-          if (l >= 7)  return 4;
-          if (l >= 5)  return 3;
-          return 2;
-        },
-
-        get spentTrainingPoints() {
-          return Object.values(this.investedPoints).reduce((s, v) => s + v, 0);
-        },
-
-        get remainingTrainingPoints() {
-          return this.totalTrainingPoints - this.spentTrainingPoints;
-        },
-
-        // Base 3, +1 per even level (2,4,6,8,10,12,14,16,18,20)
-        get totalMemorySlots() {
-          return 3 + Math.floor(this.characterLevel / 2);
-        },
-
-        get isOverBudget() {
-          return this.spentTrainingPoints > this.totalTrainingPoints;
-        },
-
-        // ── Profession helpers ───────────────────────────────────────────────
-        professionLevel(id) { return this.investedPoints[id] ?? 0; },
-
-        canInvest(id) {
-          return this.remainingTrainingPoints > 0 && this.professionLevel(id) < 3;
-        },
-
-        canRemove(id) { return this.professionLevel(id) > 0; },
-
-        invest(id) { if (this.canInvest(id)) this.investedPoints[id]++; },
-        remove(id) { if (this.canRemove(id)) this.investedPoints[id]--; },
-
-        isSkillUnlocked(id, skillLevel) {
-          return this.professionLevel(id) >= skillLevel;
-        },
-
-        // ── Persistence ──────────────────────────────────────────────────────
-        save() {
-          try {
-            localStorage.setItem(this.storageKey, JSON.stringify({
-              characterName:  this.characterName,
-              characterLevel: this.characterLevel,
-              investedPoints: { ...this.investedPoints }
-            }));
-          } catch (_) {}
-        },
-
-        load() {
-          try {
-            const raw = localStorage.getItem(this.storageKey);
-            if (!raw) return;
-            const d = JSON.parse(raw);
-            if (typeof d.characterName === 'string')
-              this.characterName = d.characterName;
-            if (typeof d.characterLevel === 'number' && d.characterLevel >= 1 && d.characterLevel <= 20)
-              this.characterLevel = d.characterLevel;
-            if (d.investedPoints && typeof d.investedPoints === 'object') {
-              for (const id of Object.keys(this.investedPoints)) {
-                const v = d.investedPoints[id];
-                if (typeof v === 'number' && v >= 0 && v <= 3)
-                  this.investedPoints[id] = v;
-              }
-            }
-          } catch (_) {}
-        },
-
-        reset() {
-          this.characterName  = '';
-          this.characterLevel = 1;
-          for (const id of Object.keys(this.investedPoints)) this.investedPoints[id] = 0;
-          try { localStorage.removeItem(this.storageKey); } catch (_) {}
-        }
-
-      }));
-    });
-  </script>
-
+    <script src="app.js"></script>
 </body>
+
 </html>
