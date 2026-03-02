@@ -11,12 +11,10 @@
 }
 
 .u-box-glow {
-    --box-glow-color: var(--box-glow-color);
-
     box-shadow:
-        0 0 10px 2px color-mix(in srgb, var(--box-glow-color) 50%, transparent),
-        0 0 30px 6px color-mix(in srgb, var(--box-glow-color) 35%, transparent),
-        0 0 60px 12px color-mix(in srgb, var(--box-glow-color) 10%, transparent)
+        0 0 6px 1px color-mix(in srgb, var(--box-glow-color) 30%, transparent),
+        0 0 20px 4px color-mix(in srgb, var(--box-glow-color) 20%, transparent),
+        0 0 40px 8px color-mix(in srgb, var(--box-glow-color) 8%, transparent);
 }
 
 .u-text-glow {
