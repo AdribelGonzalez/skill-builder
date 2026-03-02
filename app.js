@@ -1,4 +1,4 @@
-const PROFESSIONS = [
+const COMBAT_ARTS = [
     {
         "key": "defender",
         "name": "Defender",
@@ -151,14 +151,14 @@ const MAX_RP = 4;
 const MOVEMENT = 10;
 
 // Tabs
-const TAB_PROFESSIONS = 'professions';
+const TAB_COMBAT_ARTS = 'combat-arts';
 const TAB_SKILLS = 'skills'
-const DEFAULT_TAB = TAB_PROFESSIONS;
+const DEFAULT_TAB = TAB_COMBAT_ARTS;
 
 const createCharacter = () => ({
     name: "",
     level: MIN_LEVEL,
-    professions: {},
+    combatArts: {},
     masteries: [],
     talents: [],
     skills: [],
@@ -169,7 +169,7 @@ function app() {
         key: "character-v1",
         character: createCharacter(),
 
-        professions: PROFESSIONS,
+        combatArts: COMBAT_ARTS,
 
         minLevel: MIN_LEVEL,
         maxLevel: MAX_LEVEL,
@@ -186,7 +186,7 @@ function app() {
 
         movement: MOVEMENT,
 
-        tab1: TAB_PROFESSIONS,
+        tab1: TAB_COMBAT_ARTS,
         tab2: TAB_SKILLS,
         selectedTab: DEFAULT_TAB,
 
@@ -224,12 +224,12 @@ function app() {
             if (this.usedTrainingPoints >= this.totalTrainingPoints)
                 return;
 
-            const professions = this.character.professions;
+            const combatArts = this.character.combatArts;
 
-            if (professions[key]) {
-                professions[key]++;
+            if (combatArts[key]) {
+                combatArts[key]++;
             } else {
-                professions[key] = 1;
+                combatArts[key] = 1;
             }
 
             // Remember most recent mastery
@@ -238,15 +238,15 @@ function app() {
 
         // Forget profession
         masteryDown(key) {
-            const professions = this.character.professions;
+            const combatArts = this.character.combatArts;
 
-            if (!professions[key])
+            if (!combatArts[key])
                 return;
 
-            professions[key]--;
+            combatArts[key]--;
 
-            if (professions[key] <= 0)
-                delete professions[key];
+            if (combatArts[key] <= 0)
+                delete combatArts[key];
 
             // Forget most recent mastery
             const index = this.character.masteries.lastIndexOf(key);
@@ -254,12 +254,12 @@ function app() {
                 this.character.masteries.splice(index, 1);
         },
 
-        getProfession(key) {
-            return this.professions.find(p => p.key === key) ?? null;
+        getCombatArt(key) {
+            return this.combatArts.find(p => p.key === key) ?? null;
         },
 
         getMasteryLevel(key) {
-            return this.character.professions?.[key] ?? 0;
+            return this.character.combatArts?.[key] ?? 0;
         },
 
         get totalTrainingPoints() {
@@ -272,7 +272,7 @@ function app() {
         },
 
         get usedTrainingPoints() {
-            return Object.values(this.character.professions).reduce((sum, level) => sum + level, 0);
+            return Object.values(this.character.combatArts ?? {}).reduce((sum, level) => sum + level, 0);
         },
 
         get freeTrainingPoints() {

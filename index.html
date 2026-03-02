@@ -110,11 +110,11 @@
                     </div>
                     <div class="flex gap-1">
 
-                        <template x-for="(value, key) in character.professions">
+                        <template x-for="(value, key) in character.combatArts">
 
                             <span class="inline-flex items-center gap-2 rounded-lg bg-gray-400/10 px-3 py-1 font-medium">
-                                <i class="text-amber-400 text-lg" x-bind:class="getProfession(key)?.icon"></i>
-                                <span x-text="getProfession(key)?.name"></span>
+                                <i class="text-amber-400 text-lg" x-bind:class="getCombatArt(key)?.icon"></i>
+                                <span x-text="getCombatArt(key)?.name"></span>
 
                                 <!-- Divider -->
                                 <span class="h-3 w-px bg-gray-400/40"></span>
@@ -146,20 +146,21 @@
 
         </div>
 
-        <!-- Tab: Combat Professions -->
+        <!-- Tab: Combat Arts -->
         <div x-show="selectedTab === tab1" class="flex flex-col gap-8">
 
             <!-- Divider -->
             <div class="u-divider-amber u-font-cinzel font-semibold text-xl">
                 <div class="flex items-center gap-2">
                     <i class="ti ti-swords text-amber-400"></i>
-                    Combat Professions
+                    Combat Arts
                 </div>
             </div>
 
-            <!-- Combat Professions -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <template x-for="profession in professions" :key="profession.key">
+
+                <!-- Combat Art -->
+                <template x-for="combatArt in combatArts" :key="combatArt.key">
 
                     <div class="card border border-2 border-amber-900/60 border-b-yellow-700/60 bg-gradient-to-tl from-amber-900/33 to-gray-900/0">
                         <div class="card-body items-center text-center gap-6 py-6">
@@ -169,13 +170,13 @@
 
                                 <div class="flex gap-6">
                                     <!-- Icon -->
-                                    <div x-bind:class="getMasteryLevel(profession.key) > 0 ? 'u-text-glow text-amber-400 border-amber-900' : 'text-amber-400/60 border-amber-900/60'" class="w-16 h-16 rounded-lg flex items-center justify-center border text-2xl" style="--text-glow-color: var(--color-amber-400);">
-                                        <i x-bind:class="profession.icon"></i>
+                                    <div x-bind:class="getMasteryLevel(combatArt.key) > 0 ? 'u-text-glow text-amber-400 border-amber-900' : 'text-amber-400/60 border-amber-900/60'" class="w-16 h-16 rounded-lg flex items-center justify-center border text-2xl" style="--text-glow-color: var(--color-amber-400);">
+                                        <i x-bind:class="combatArt.icon"></i>
                                     </div>
                                     <!-- Description -->
                                     <div class="flex flex-col items-start justify-end h-16">
-                                        <h2 class="u-font-cinzel text-xl font-bold text-gray-300 uppercase tracking-widest" x-text="profession.name"></h2>
-                                        <h3 class="u-font-crimson-text text-lg text-amber-400" x-text="profession.title"></h3>
+                                        <h2 class="u-font-cinzel text-xl font-bold text-gray-300 uppercase tracking-widest" x-text="combatArt.name"></h2>
+                                        <h3 class="u-font-crimson-text text-lg text-amber-400" x-text="combatArt.title"></h3>
                                     </div>
                                 </div>
 
@@ -184,15 +185,15 @@
                                     <!-- Mastery Level Circles -->
                                     <div class="flex gap-1">
                                         <template x-for="i in maxMasteryLevel">
-                                            <div x-bind:class="getMasteryLevel(profession.key) >= i ? 'bg-amber-400 border border-amber-400/20 u-box-glow' : 'bg-amber-900/10 border border-amber-400/20'" class="w-3.5 h-3.5 rounded-full" style="--box-glow-color: var(--color-amber-400)"></div>
+                                            <div x-bind:class="getMasteryLevel(combatArt.key) >= i ? 'bg-amber-400 border border-amber-400/20 u-box-glow' : 'bg-amber-900/10 border border-amber-400/20'" class="w-3.5 h-3.5 rounded-full" style="--box-glow-color: var(--color-amber-400)"></div>
                                         </template>
                                     </div>
-                                    <!-- Train/Forget Profession -->
+                                    <!-- Train/Forget Mastery Level -->
                                     <div class="flex gap-1">
-                                        <button @click="masteryDown(profession.key)" title="Forget" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="getMasteryLevel(profession.key) <= 0">
+                                        <button @click="masteryDown(combatArt.key)" title="Forget" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="getMasteryLevel(combatArt.key) <= 0">
                                             <i class="ti ti-minus"></i>
                                         </button>
-                                        <button @click="masteryUp(profession.key)" title="Train" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="getMasteryLevel(profession.key) >= maxMasteryLevel || freeTrainingPoints <= 0">
+                                        <button @click="masteryUp(combatArt.key)" title="Train" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="getMasteryLevel(combatArt.key) >= maxMasteryLevel || freeTrainingPoints <= 0">
                                             <i class="ti ti-plus"></i>
                                         </button>
                                     </div>
@@ -208,7 +209,7 @@
 
                             <!-- Description -->
                             <div class="flex">
-                                <p class="u-font-crimson-text text-lg text-justify text-gray-300" x-text="profession.description">
+                                <p class="u-font-crimson-text text-lg text-justify text-gray-300" x-text="combatArt.description">
                                 </p>
                             </div>
 
@@ -221,11 +222,11 @@
 
                             <!-- Talents -->
                             <div class="w-full flex flex-col gap-2">
-                                <template x-for="talent in profession.talents">
+                                <template x-for="talent in combatArt.talents">
 
                                     <div class="flex gap-6 h-16 items-center">
-                                        <div x-bind:class="getMasteryLevel(profession.key) >= talent.level ? 'border-amber-900/60 u-font-cinzel u-text-glow font-bold text-xl text-amber-400' : 'border-gray-400/60 text-gray-400/60'" class="w-10 h-10 flex items-center justify-center rounded-lg border text-xl">
-                                            <i x-bind:class="getMasteryLevel(profession.key) >= talent.level ? 'ti-check' : 'ti-lock'" class="ti"></i>
+                                        <div x-bind:class="getMasteryLevel(combatArt.key) >= talent.level ? 'border-amber-900/60 u-font-cinzel u-text-glow font-bold text-xl text-amber-400' : 'border-gray-400/60 text-gray-400/60'" class="w-10 h-10 flex items-center justify-center rounded-lg border text-xl">
+                                            <i x-bind:class="getMasteryLevel(combatArt.key) >= talent.level ? 'ti-check' : 'ti-lock'" class="ti"></i>
                                         </div>
                                         <div class="flex flex-col items-start justify-center h-16">
                                             <h3 class="u-font-cinzel font-bold text-gray-300" x-text="talent.name"></h3>
