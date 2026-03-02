@@ -189,10 +189,10 @@
                                     </div>
                                     <!-- Train/Forget Profession -->
                                     <div class="flex gap-1">
-                                        <button @click="masteryDown(profession.key)" title="Forget" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400">
+                                        <button @click="masteryDown(profession.key)" title="Forget" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="getMasteryLevel(profession.key) <= 0">
                                             <i class="ti ti-minus"></i>
                                         </button>
-                                        <button @click="masteryUp(profession.key)" title="Train" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400">
+                                        <button @click="masteryUp(profession.key)" title="Train" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="getMasteryLevel(profession.key) >= maxMasteryLevel">
                                             <i class="ti ti-plus"></i>
                                         </button>
                                     </div>
@@ -206,6 +206,7 @@
                                 </div>
                             </div>
 
+                            <!-- Description -->
                             <div class="flex">
                                 <p class="u-font-crimson-text text-lg text-justify text-gray-300" x-text="profession.description">
                                 </p>
