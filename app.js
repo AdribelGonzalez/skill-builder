@@ -152,13 +152,14 @@ const MOVEMENT = 10;
 
 // Tabs
 const TAB_PROFESSIONS = 'professions';
-const TAB_SKILLS= 'skills'
+const TAB_SKILLS = 'skills'
 const DEFAULT_TAB = TAB_PROFESSIONS;
 
 const createCharacter = () => ({
     name: "",
     level: MIN_LEVEL,
     professions: {},
+    masteries: [],
     talents: [],
     skills: [],
 });
@@ -191,23 +192,35 @@ function app() {
 
         // Gain level
         levelUp() {
-            if (this.character.level < this.maxLevel) {
-                this.character.level++;
-            }
+            if (this.character.level >= this.maxLevel)
+                return;
+
+            this.character.level++;
         },
 
         // Reduce level
         levelDown() {
-            if (this.character.level > this.minLevel) {
-                this.character.level--;
+            if (this.character.level <= this.minLevel)
+                return;
+
+            this.character.level--;
+
+            // Remove masteries until points are valid
+            while (this.usedTrainingPoints > this.totalTrainingPoints && this.character.masteries.length > 0) {
+                const key = this.character.masteries[this.character.masteries.length - 1];
+
+                if (!key) break;
+
+                this.masteryDown(key);
             }
         },
 
         // Train profession
         masteryUp(key) {
             // Avoid over spending
-            if (this.usedTrainingPoints >= this.maxMasteryLevel)
+            if (this.getMasteryLevel(key) >= this.maxMasteryLevel)
                 return;
+
             if (this.usedTrainingPoints >= this.totalTrainingPoints)
                 return;
 
@@ -218,6 +231,9 @@ function app() {
             } else {
                 professions[key] = 1;
             }
+
+            // Remember most recent mastery
+            this.character.masteries.push(key);
         },
 
         // Forget profession
@@ -231,6 +247,11 @@ function app() {
 
             if (professions[key] <= 0)
                 delete professions[key];
+
+            // Forget most recent mastery
+            const index = this.character.masteries.lastIndexOf(key);
+            if (index !== -1)
+                this.character.masteries.splice(index, 1);
         },
 
         getProfession(key) {

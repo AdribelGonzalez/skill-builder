@@ -75,7 +75,7 @@
                         <label class="label u-font-cinzel text-white pb-1">
                             Level
                         </label>
-                        <input type="number" x-model.number="character.level" @input="if (character.level < minLevel) character.level = minLevel; if (character.level > maxLevel) character.level = maxLevel" class="input input-ghost u-font-cinzel text-4xl w-20 text-center appearance-none mb-1 focus:bg-transparent focus:outline-none text-amber-400" style="-moz-appearance: textfield;" :min="minLevel" :max="maxLevel">
+                        <input type="number" x-model.number="character.level" @input="if (character.level < minLevel) character.level = minLevel; if (character.level > maxLevel) character.level = maxLevel" class="input input-ghost u-font-cinzel text-4xl w-20 text-center appearance-none mb-1 focus:bg-transparent focus:outline-none text-amber-400" style="appearance: textfield; -moz-appearance: textfield;" :min="minLevel" :max="maxLevel">
                         <div class="flex items-center gap-1">
                             <button class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="character.level <= minLevel" @click="levelDown()">
                                 <i class="ti ti-minus"></i>
@@ -169,7 +169,7 @@
 
                                 <div class="flex gap-6">
                                     <!-- Icon -->
-                                    <div x-bind:class="getMasteryLevel(profession.key) > 0 ? 'u-text-glow text-amber-400' : 'text-amber-400/60'" class="w-16 h-16 rounded-lg flex items-center justify-center border border-amber-900/60 text-2xl" style="--text-glow-color: var(--color-amber-400);">
+                                    <div x-bind:class="getMasteryLevel(profession.key) > 0 ? 'u-text-glow text-amber-400 border-amber-900' : 'text-amber-400/60 border-amber-900/60'" class="w-16 h-16 rounded-lg flex items-center justify-center border text-2xl" style="--text-glow-color: var(--color-amber-400);">
                                         <i x-bind:class="profession.icon"></i>
                                     </div>
                                     <!-- Description -->
@@ -192,7 +192,7 @@
                                         <button @click="masteryDown(profession.key)" title="Forget" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="getMasteryLevel(profession.key) <= 0">
                                             <i class="ti ti-minus"></i>
                                         </button>
-                                        <button @click="masteryUp(profession.key)" title="Train" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="getMasteryLevel(profession.key) >= maxMasteryLevel">
+                                        <button @click="masteryUp(profession.key)" title="Train" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="getMasteryLevel(profession.key) >= maxMasteryLevel || freeTrainingPoints <= 0">
                                             <i class="ti ti-plus"></i>
                                         </button>
                                     </div>
@@ -233,18 +233,6 @@
                                         </div>
                                     </div>
 
-
-                                    <!--
-                                    <div class="flex gap-6 h-16 items-center">
-                                    <div class="w-10 h-10 rounded-lg flex items-center justify-center border " style="--text-glow-color: var(--color-amber-400);" x-text="talent.level">
-
-                                    </div>
-                                    <div class="flex flex-col items-start justify-center h-16">
-                                        <h3 class="u-font-cinzel font-bold text-gray-300" x-text="talent.name"></h2>
-                                        <h4 class="u-font-crimson-text text-amber-400" x-text="talent.description"></h3>
-                                    </div>
-                                -->
-
                                 </template>
                             </div>
 
@@ -256,6 +244,14 @@
         </div>
 
         <div x-show="selectedTab === tab2" class="flex flex-col gap-8">
+
+            <!-- Divider -->
+            <div class="u-divider-amber u-font-cinzel font-semibold text-xl">
+                <div class="flex items-center gap-2">
+                    <i class="ti ti-swords text-blue-400"></i>
+                    Skills
+                </div>
+            </div>
 
         </div>
 
