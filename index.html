@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body x-data="app" x-cloak class="min-h-screen text-gray-200" style="background: linear-gradient(160deg, #050508 0%, #0f1117 35%, #111827 65%, #080b10 100%);">
+<body x-cloak x-data="app" class="min-h-screen text-gray-200" style="background: linear-gradient(160deg, #050508 0%, #0f1117 35%, #111827 65%, #080b10 100%);">
 
     <!-- Header -->
     <header class="relative overflow-hidden py-8 px-6 border-b border-amber-900/30 bg-gradient-to-b from-amber-900/20 to-gray-900/0">
@@ -31,20 +31,20 @@
 
             <div class="flex items-center gap-4">
                 <div>
-                    <h2 class="font-cinzel text-white/80 tracking-wide">
+                    <h2 class="u-font-cinzel text-white/80 tracking-wide">
                         Brigadurr's Combat Rules
                     </h2>
-                    <h1 class="font-cinzel text-3xl text-amber-400 tracking-wider">
+                    <h1 class="u-font-cinzel text-3xl text-amber-400 tracking-wider">
                         Character Planner
                     </h1>
                 </div>
             </div>
 
             <div class="flex gap-1">
-                <button class="btn bg-amber-900/10 text-xl border border-amber-400/25 transition-all duration-300 hover:text-amber-400" @click="save()" title="Save character">
+                <button class="btn bg-amber-900/10 text-xl border border-amber-400/20 transition-all duration-300 hover:text-amber-400" @click="save()" title="Save character">
                     <i class="ti ti-device-floppy"></i>
                 </button>
-                <button class="btn bg-amber-900/10 text-xl border border-amber-400/25 group transition-all duration-300 hover:text-red-400" @click="reset()" title="Reset character">
+                <button class="btn bg-amber-900/10 text-xl border border-amber-400/20 group transition-all duration-300 hover:text-red-400" @click="reset()" title="Reset character">
                     <i class="ti ti-refresh transition-transform duration-300 group-hover:-rotate-180"></i>
                 </button>
             </div>
@@ -61,29 +61,26 @@
         <div class="card border-2 border-amber-900/30 border-b-yellow-700/30 bg-gradient-to-br from-amber-900/20 to-gray-900/0">
 
             <div class="card-body gap-4 py-6">
-                <div class="flex items-start gap-6">
+                <div class="flex flex-col items-center md:flex-row md:items-start gap-6">
                     <!-- Name -->
                     <div class="flex flex-col grow">
-                        <label class="label font-cinzel pb-1">
+                        <label class="label u-font-cinzel pb-1">
                             Name
                         </label>
-                        <input type="text" placeholder="Type something..." maxlength="60" x-model="character.name" class="input input-ghost font-cinzel text-4xl w-full p-0 mb-1 focus:bg-transparent" />
-                        <div class="flex gap-1 h-10">
-                            <!-- TODO -->
-                        </div>
+                        <input type="text" placeholder="Type something..." maxlength="60" x-model="character.name" class="input input-ghost u-font-cinzel text-4xl w-full p-0 mb-1 focus:bg-transparent focus:outline-none text-amber-400" />
                     </div>
 
                     <!-- Level -->
                     <div class="flex flex-col items-center">
-                        <label class="label font-cinzel text-white pb-1">
+                        <label class="label u-font-cinzel text-white pb-1">
                             Level
                         </label>
-                        <input type="number" x-model.number="character.level" @input="if (character.level < minLevel) character.level = minLevel; if (character.level > maxLevel) character.level = maxLevel" class="input input-ghost font-cinzel text-4xl w-20 text-center appearance-none mb-1 focus:bg-transparent" style="-moz-appearance: textfield;" :min="minLevel" :max="maxLevel">
+                        <input type="number" x-model.number="character.level" @input="if (character.level < minLevel) character.level = minLevel; if (character.level > maxLevel) character.level = maxLevel" class="input input-ghost u-font-cinzel text-4xl w-20 text-center appearance-none mb-1 focus:bg-transparent focus:outline-none text-amber-400" style="-moz-appearance: textfield;" :min="minLevel" :max="maxLevel">
                         <div class="flex items-center gap-1">
-                            <button class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/25 transition-all duration-300 hover:text-amber-400" :disabled="character.level <= minLevel" @click="levelDown()">
+                            <button class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="character.level <= minLevel" @click="levelDown()">
                                 <i class="ti ti-minus"></i>
                             </button>
-                            <button class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/25 transition-all duration-300 hover:text-amber-400" :disabled="character.level >= maxLevel" @click="levelUp()">
+                            <button class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" :disabled="character.level >= maxLevel" @click="levelUp()">
                                 <i class="ti ti-plus"></i>
                             </button>
                         </div>
@@ -92,30 +89,178 @@
             </div>
         </div>
 
+        <!-- Divider -->
+        <div class="h-px" style="background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-amber-400) 40%, transparent), transparent);"></div>
 
+        <!-- Tabs -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <!-- Training Points -->
-            <div class="card border border-2 border-amber-900/60 border-b-yellow-700/60 bg-gradient-to-tl from-amber-900/33 to-gray-900/0">
+            <div @click="selectedTab = tab1" x-bind:class="selectedTab === tab1 ? 'border-amber-900/60 border-b-yellow-700/60 bg-gradient-to-tl from-amber-900/33 to-gray-900/0 ' : 'border-gray-700/60 border-b-gray-400/60 bg-gradient-to-tl from-gray-700/33 to-gray-900/0'" class="cursor-pointer card border border-2 hover:scale-[1.025]" style="--box-glow-color: var(--color-amber-900)">
                 <div class="card-body items-center text-center gap-2 py-6">
-                    <h3 class="font-cinzel text-base font-bold text-gray-300 uppercase tracking-widest">Training Points</h3>
-                    <h1 class="font-thin font-cinzel text-9xl text-amber-400 glow-amber" x-text="trainingPoints">1</h1>
+                    <div class="flex items-center gap-2">
+                        <i class="ti ti-barbell text-xl text-amber-400"></i>
+                        <h3 class="u-font-cinzel text-xl font-bold text-gray-300 uppercase tracking-widest">Training Points</h3>
+                    </div>
+                    <div class="flex items-center">
+                        <h1 x-bind:class="selectedTab === tab1 ? 'text-amber-400 u-text-glow' : 'text-gray-400'" class="font-thin u-font-cinzel text-9xl" style="--text-glow-color: var(--color-amber-400)" x-text="freeTrainingPoints">1</h1>
+                        <h3 x-bind:class="selectedTab === tab1 ? 'text-amber-400' : 'text-gray-400'" class="u-font-cinzel text-xl">
+                            / <span x-text="totalTrainingPoints">1</span>
+                        </h3>
+                    </div>
+                    <div class="flex gap-1">
+
+                        <template x-for="(value, key) in character.professions">
+
+                            <span class="inline-flex items-center gap-2 rounded-lg bg-gray-400/10 px-3 py-1 font-medium">
+                                <i class="text-amber-400 text-lg" x-bind:class="getProfession(key)?.icon"></i>
+                                <span x-text="getProfession(key)?.name"></span>
+
+                                <!-- Divider -->
+                                <span class="h-3 w-px bg-gray-400/40"></span>
+
+                                <span class="font-bold" x-text="value"></span>
+                            </span>
+
+                        </template>
+
+                    </div>
                 </div>
             </div>
 
-            <!-- Training Points -->
-            <div class="card border border-2 border-blue-900/60 border-b-cyan-700/60 bg-gradient-to-tl from-blue-900/33 to-gray-900/0">
+            <!-- Memory Slots -->
+            <div @click="selectedTab = tab2" x-bind:class="selectedTab === tab2 ? 'border-blue-900/60 border-b-cyan-700/60 bg-gradient-to-tl from-blue-900/33 to-gray-900/0 ' : 'border-gray-700/60 bg-gradient-to-tl from-gray-700/33 to-gray-900/0'" class="cursor-pointer card border border-2 hover:scale-[1.025]">
                 <div class="card-body items-center text-center gap-2 py-6">
-                    <h3 class="font-cinzel text-base font-bold text-gray-300 uppercase tracking-widest">Memory Slots</h3>
-                    <h1 class="font-thin font-cinzel text-9xl text-blue-400 glow-blue" x-text="memorySlots">1</h1>
+                    <div class="flex items-center gap-2">
+                        <i class="ti ti-brain text-xl text-blue-400"></i>
+                        <h3 class="u-font-cinzel text-xl font-bold text-gray-300 uppercase tracking-widest">Memory Slots</h3>
+                    </div>
+                    <div class="flex items-center">
+                        <h1 x-bind:class="selectedTab === tab2 ? 'text-blue-400 u-text-glow' : 'text-gray-400'" class="font-thin u-font-cinzel text-9xl" style="--text-glow-color: var(--color-blue-400)" x-text="freeMemorySlots">1</h1>
+                        <h3 x-bind:class="selectedTab === tab2 ? 'text-blue-400' : 'text-gray-400'" class="u-font-cinzel text-xl">
+                            / <span x-text="totalMemorySlots">1</span>
+                        </h3>
+                    </div>
                 </div>
             </div>
 
         </div>
 
+        <!-- Tab: Combat Professions -->
+        <div x-show="selectedTab === tab1" class="flex flex-col gap-8">
+
+            <!-- Divider -->
+            <div class="u-divider-amber u-font-cinzel font-semibold text-xl">
+                <div class="flex items-center gap-2">
+                    <i class="ti ti-swords text-amber-400"></i>
+                    Combat Professions
+                </div>
+            </div>
+
+            <!-- Combat Professions -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <template x-for="profession in professions" :key="profession.key">
+
+                    <div class="card border border-2 border-amber-900/60 border-b-yellow-700/60 bg-gradient-to-tl from-amber-900/33 to-gray-900/0">
+                        <div class="card-body items-center text-center gap-6 py-6">
+
+                            <!-- Header -->
+                            <div class="w-full flex justify-between gap-2">
+
+                                <div class="flex gap-6">
+                                    <!-- Icon -->
+                                    <div x-bind:class="getMasteryLevel(profession.key) > 0 ? 'u-text-glow text-amber-400' : 'text-amber-400/60'" class="w-16 h-16 rounded-lg flex items-center justify-center border border-amber-900/60 text-2xl" style="--text-glow-color: var(--color-amber-400);">
+                                        <i x-bind:class="profession.icon"></i>
+                                    </div>
+                                    <!-- Description -->
+                                    <div class="flex flex-col items-start justify-end h-16">
+                                        <h2 class="u-font-cinzel text-xl font-bold text-gray-300 uppercase tracking-widest" x-text="profession.name"></h2>
+                                        <h3 class="u-font-crimson-text text-lg text-amber-400" x-text="profession.title"></h3>
+                                    </div>
+                                </div>
+
+                                <!-- Mastery Level -->
+                                <div class="flex flex-col items-center gap-2">
+                                    <!-- Mastery Level Circles -->
+                                    <div class="flex gap-1">
+                                        <template x-for="i in maxMasteryLevel">
+                                            <div x-bind:class="getMasteryLevel(profession.key) >= i ? 'bg-amber-400 border border-amber-400/20 u-box-glow' : 'bg-amber-900/10 border border-amber-400/20'" class="w-3.5 h-3.5 rounded-full" style="--box-glow-color: var(--color-amber-400)"></div>
+                                        </template>
+                                    </div>
+                                    <!-- Train/Forget Profession -->
+                                    <div class="flex gap-1">
+                                        <button @click="masteryDown(profession.key)" title="Forget" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400">
+                                            <i class="ti ti-minus"></i>
+                                        </button>
+                                        <button @click="masteryUp(profession.key)" title="Train" class="btn w-10 h-10 flex items-center justify-center text-xs bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400">
+                                            <i class="ti ti-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Divider -->
+                            <div class="u-divider-amber u-font-cinzel label w-full">
+                                <div class="flex items-center gap-2">
+                                    About
+                                </div>
+                            </div>
+
+                            <div class="flex">
+                                <p class="u-font-crimson-text text-lg text-justify text-gray-300" x-text="profession.description">
+                                </p>
+                            </div>
+
+                            <!-- Divider -->
+                            <div class="u-divider-amber u-font-cinzel label w-full">
+                                <div class="flex items-center gap-2">
+                                    Talents
+                                </div>
+                            </div>
+
+                            <!-- Talents -->
+                            <div class="w-full flex flex-col gap-2">
+                                <template x-for="talent in profession.talents">
+
+                                    <div class="flex gap-6 h-16 items-center">
+                                        <div x-bind:class="getMasteryLevel(profession.key) >= talent.level ? 'border-amber-900/60 u-font-cinzel u-text-glow font-bold text-xl text-amber-400' : 'border-gray-400/60 text-gray-400/60'" class="w-10 h-10 flex items-center justify-center rounded-lg border text-xl">
+                                            <i x-bind:class="getMasteryLevel(profession.key) >= talent.level ? 'ti-check' : 'ti-lock'" class="ti"></i>
+                                        </div>
+                                        <div class="flex flex-col items-start justify-center h-16">
+                                            <h3 class="u-font-cinzel font-bold text-gray-300" x-text="talent.name"></h3>
+                                            <h4 class="u-font-crimson-text text-amber-400" x-text="talent.description"></h4>
+                                        </div>
+                                    </div>
+
+
+                                    <!--
+                                    <div class="flex gap-6 h-16 items-center">
+                                    <div class="w-10 h-10 rounded-lg flex items-center justify-center border " style="--text-glow-color: var(--color-amber-400);" x-text="talent.level">
+
+                                    </div>
+                                    <div class="flex flex-col items-start justify-center h-16">
+                                        <h3 class="u-font-cinzel font-bold text-gray-300" x-text="talent.name"></h2>
+                                        <h4 class="u-font-crimson-text text-amber-400" x-text="talent.description"></h3>
+                                    </div>
+                                -->
+
+                                </template>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </template>
+            </div>
+        </div>
+
+        <div x-show="selectedTab === tab2" class="flex flex-col gap-8">
+
+        </div>
+
     </main>
 
-    <footer class="footer sm:footer-horizontal footer-center font-crimson-text text-base-content p-4">
+    <footer class="footer sm:footer-horizontal footer-center u-font-crimson-text text-xl-content p-4">
         <aside>
             <p class="text-white/80">Designed for Dungeons & Dragons 5th Edition</p>
         </aside>

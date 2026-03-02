@@ -2,6 +2,7 @@ const PROFESSIONS = [
     {
         "key": "defender",
         "name": "Defender",
+        "icon": "ti ti-shield",
         "title": "Stalwart guardian",
         "signature": "One-handed & shield",
         "description": "Anchors the battlefield with shield and steel, guarding allies, intercepting attacks, and provoking enemies to focus their fury on an unbreakable wall.",
@@ -14,6 +15,7 @@ const PROFESSIONS = [
     {
         "key": "berserker",
         "name": "Berserker",
+        "icon": "ti ti-sword",
         "title": "Terror of the battlefield",
         "signature": "Two-handed",
         "description": "Overwhelms enemies with devastating blows, trading defense for raw destructive power.",
@@ -26,6 +28,7 @@ const PROFESSIONS = [
     {
         "key": "trickster",
         "name": "Trickster",
+        "icon": "ti ti-slice",
         "title": "Stealth assassin",
         "signature": "Backstab",
         "description": "Relies on deception and agility to exploit openings and punish foes with precise, opportunistic strikes.",
@@ -38,6 +41,7 @@ const PROFESSIONS = [
     {
         "key": "ranger",
         "name": "Ranger",
+        "icon": "ti ti-bow",
         "title": "Ranged skirmisher",
         "signature": "Archery",
         "description": "Hunts distant targets with precision, striking from afar and keeping enemies at bay.",
@@ -50,6 +54,7 @@ const PROFESSIONS = [
     {
         "key": "striker",
         "name": "Striker",
+        "icon": "ti ti-hand-stop",
         "title": "Close-quarters specialist",
         "signature": "Martial arts",
         "description": "Pressures enemies at close range, locking down single targets, deflecting projectiles with swift movements and harassing foes with fluid strikes.",
@@ -62,6 +67,7 @@ const PROFESSIONS = [
     {
         "key": "luminary",
         "name": "Luminary",
+        "icon": "ti ti-flame",
         "title": "Radiant pyromancer",
         "signature": "Fire & radiance",
         "description": "Wields fire and radiance to scorch and blind enemies, ignite the battlefield and hasten allies.",
@@ -74,6 +80,7 @@ const PROFESSIONS = [
     {
         "key": "weaver",
         "name": "Weaver",
+        "icon": "ti ti-bolt",
         "title": "Thunderstorm sage",
         "signature": "Air & electricity",
         "description": "Manipulates air and electricity to strike foes with chain lightning, stun targets and reposition with teleportation.",
@@ -86,6 +93,7 @@ const PROFESSIONS = [
     {
         "key": "mystic",
         "name": "Mystic",
+        "icon": "ti ti-droplet",
         "title": "Frost & tide master",
         "signature": "Water & ice",
         "description": "Controls water and cold to freeze enemies, restrict movement and restore allies.",
@@ -98,6 +106,7 @@ const PROFESSIONS = [
     {
         "key": "druid",
         "name": "Druid",
+        "icon": "ti ti-leaf",
         "title": "Warden of the wild",
         "signature": "Earth & poison",
         "description": "Commands earth and poison to shape terrain, spread poison and fortify allies.",
@@ -110,6 +119,7 @@ const PROFESSIONS = [
     {
         "key": "shaman",
         "name": "Shaman",
+        "icon": "ti ti-ghost-3",
         "title": "Spirit dancer",
         "signature": "Mind & necrotic",
         "description": "Channels ritual chants and spiritual magic to curse enemies, spread madness and commune with restless spirits.",
@@ -121,24 +131,36 @@ const PROFESSIONS = [
     }
 ]
 
+// Level
 const MIN_LEVEL = 1;
 const MAX_LEVEL = 20;
+
+const MIN_MASTERY_LEVEL = 1;
+const MAX_MASTERY_LEVEL = 3;
+
 // Action Points (AP)
 const BASE_AP = 4;
 const EARN_AP = 4;
 const MAX_AP = 6;
+
 // Reaction Points (RP)
 const BASE_RP = 2;
 const MAX_RP = 4;
-// Movement (feet)
-const BASE_MOVEMENT = 10;
+
+// Movement (ft) per AP
+const MOVEMENT = 10;
+
+// Tabs
+const TAB_PROFESSIONS = 'professions';
+const TAB_SKILLS= 'skills'
+const DEFAULT_TAB = TAB_PROFESSIONS;
 
 const createCharacter = () => ({
     name: "",
     level: MIN_LEVEL,
     professions: {},
-    talents: {},
-    skills: {},
+    talents: [],
+    skills: [],
 });
 
 function app() {
@@ -151,6 +173,9 @@ function app() {
         minLevel: MIN_LEVEL,
         maxLevel: MAX_LEVEL,
 
+        minMasteryLevel: MIN_MASTERY_LEVEL,
+        maxMasteryLevel: MAX_MASTERY_LEVEL,
+
         baseAP: BASE_AP,
         earnAP: EARN_AP,
         maxAP: MAX_AP,
@@ -158,23 +183,65 @@ function app() {
         baseRP: BASE_RP,
         maxRP: MAX_RP,
 
-        baseMovement: BASE_MOVEMENT,
+        movement: MOVEMENT,
 
-        // Level up
+        tab1: TAB_PROFESSIONS,
+        tab2: TAB_SKILLS,
+        selectedTab: DEFAULT_TAB,
+
+        // Gain level
         levelUp() {
             if (this.character.level < this.maxLevel) {
                 this.character.level++;
             }
         },
 
-        // Level down
+        // Reduce level
         levelDown() {
             if (this.character.level > this.minLevel) {
                 this.character.level--;
             }
         },
 
-        get trainingPoints() {
+        // Train profession
+        masteryUp(key) {
+            // Avoid over spending
+            if (this.usedTrainingPoints >= this.maxMasteryLevel)
+                return;
+            if (this.usedTrainingPoints >= this.totalTrainingPoints)
+                return;
+
+            const professions = this.character.professions;
+
+            if (professions[key]) {
+                professions[key]++;
+            } else {
+                professions[key] = 1;
+            }
+        },
+
+        // Forget profession
+        masteryDown(key) {
+            const professions = this.character.professions;
+
+            if (!professions[key])
+                return;
+
+            professions[key]--;
+
+            if (professions[key] <= 0)
+                delete professions[key];
+        },
+
+        getProfession(key) {
+            return this.professions.find(p => p.key === key) ?? null;
+        },
+
+        getMasteryLevel(key) {
+            return this.character.professions?.[key] ?? 0;
+        },
+
+        get totalTrainingPoints() {
             const level = this.character.level;
 
             if (level >= 17) return 8;
@@ -183,8 +250,25 @@ function app() {
             return 2;
         },
 
-        get memorySlots() {
+        get usedTrainingPoints() {
+            return Object.values(this.character.professions).reduce((sum, level) => sum + level, 0);
+        },
+
+        get freeTrainingPoints() {
+            return this.totalTrainingPoints - this.usedTrainingPoints;
+        },
+
+        get totalMemorySlots() {
             return 3 + Math.floor(this.character.level / 2);
+        },
+
+        get usedMemorySlots() {
+            const skills = this.character.skills;
+            return Array.isArray(skills) ? skills.length : 0;
+        },
+
+        get freeMemorySlots() {
+            return this.totalMemorySlots - this.usedMemorySlots;
         },
 
         init() {

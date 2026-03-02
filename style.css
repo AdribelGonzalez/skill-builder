@@ -1,57 +1,49 @@
-.font-crimson-text {
+.u-font-crimson-text {
     font-family: 'Crimson Text', serif;
 }
 
-.font-cinzel {
+.u-font-cinzel {
     font-family: 'Cinzel', serif;
 }
 
-.glow-amber {
+.u-box-glow {
+    --box-glow-color: var(--box-glow-color);
+
+    box-shadow:
+        0 0 10px 2px color-mix(in srgb, var(--box-glow-color) 50%, transparent),
+        0 0 30px 6px color-mix(in srgb, var(--box-glow-color) 35%, transparent),
+        0 0 60px 12px color-mix(in srgb, var(--box-glow-color) 10%, transparent)
+}
+
+.u-text-glow {
     text-shadow:
-        0 0 10px rgba(251, 191, 36, 0.95),
-        0 0 30px rgba(251, 191, 36, 0.65),
-        0 0 60px rgba(251, 191, 36, 0.35),
-        0 0 100px rgba(251, 191, 36, 0.15);
+        0 0 10px color-mix(in srgb, var(--text-glow-color) 95%, transparent),
+        0 0 30px color-mix(in srgb, var(--text-glow-color) 65%, transparent),
+        0 0 60px color-mix(in srgb, var(--text-glow-color) 35%, transparent),
+        0 0 100px color-mix(in srgb, var(--text-glow-color) 15%, transparent);
 }
 
-.glow-red {
-    text-shadow:
-        0 0 10px rgba(239, 68, 68, 0.95),
-        0 0 30px rgba(239, 68, 68, 0.65),
-        0 0 60px rgba(239, 68, 68, 0.35);
+.u-divider-amber {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
 }
 
-.glow-blue {
-    text-shadow:
-        0 0 10px rgba(96, 165, 250, 0.95),
-        0 0 30px rgba(96, 165, 250, 0.65),
-        0 0 60px rgba(96, 165, 250, 0.35);
+.u-divider-amber::before,
+.u-divider-amber::after {
+    content: "";
+    height: 1px;
 }
 
-.skill-row {
-    transition: background-color 0.25s ease, opacity 0.25s ease;
+.u-divider-amber::before {
+    background: linear-gradient(90deg,
+            transparent,
+            color-mix(in srgb, var(--color-amber-400) 40%, transparent));
 }
 
-.dot-fill {
-    transition: background-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.dot-fill.active {
-    box-shadow: 0 0 8px rgba(251, 191, 36, 0.7);
-}
-
-@keyframes fadeSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-[x-cloak] {
-    display: none !important;
+.u-divider-amber::after {
+    background: linear-gradient(90deg,
+            color-mix(in srgb, var(--color-amber-400) 40%, transparent),
+            transparent);
 }
