@@ -40,21 +40,28 @@
                 </div>
             </div>
 
-            <div class="flex gap-1">
-                <button class="btn bg-amber-900/10 text-gray-300 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" @click="refresh()" title="Refresh dataset">
+            <div class="flex gap-2">
+                <!-- Button: Refresh dataset -->
+                <button class="btn bg-blue-900/10 border border-blue-400/20 group transition-all duration-300 hover:text-blue-400" @click="refresh()" title="Refresh dataset">
+                    <i class="text-lg ti ti-refresh transition-transform duration-300 group-hover:-rotate-180"></i>
                     Refresh dataset
                 </button>
-                <button class="btn bg-amber-900/10 text-gray-300 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" @click="alert('Work in progress')" title="Refresh dataset">
+                <button class="btn bg-amber-900/10 border border-amber-400/20 group transition-all duration-300 hover:text-red-400" @click="resetCharacter()" title="Reset character">
+                    <i class="text-lg ti ti-trash"></i>
+                    Reset
+                </button>
+                <!-- Button: Documentation -->
+                <button class="btn bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" @click="window.open(documentationUrl, '_blank', 'noopener,noreferrer')" title="View documentation">
+                    <i class="text-lg ti ti-book"></i>
+                    Documentation
+                </button>
+                <button class="btn bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" @click="alert('Work in progress')" title="Print character">
                     <i class="text-lg ti ti-printer"></i>
                     Print
                 </button>
-                <button class="btn bg-amber-900/10 text-gray-300 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" @click="saveCharacter()" title="Save character">
+                <button class="btn bg-amber-900/10 border border-amber-400/20 transition-all duration-300 hover:text-amber-400" @click="saveCharacter()" title="Save character">
                     <i class="text-lg ti ti-device-floppy"></i>
                     Save
-                </button>
-                <button class="btn bg-amber-900/10 text-gray-300 font-medium border border-amber-400/20 group transition-all duration-300 hover:text-red-400" @click="resetCharacter()" title="Reset character">
-                    <i class="text-lg ti ti-refresh transition-transform duration-300 group-hover:-rotate-180"></i>
-                    Reset
                 </button>
             </div>
         </div>
@@ -105,23 +112,30 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <!-- Training Points -->
-            <div @click="selectedTab = tab1" x-bind:class="selectedTab === tab1 ? 'border-amber-900/60 border-b-yellow-700/60 bg-gradient-to-tl from-amber-900/20 to-gray-900/0 ' : 'border-gray-700/60 border-b-gray-400/60 bg-gradient-to-tl from-gray-700/20 to-gray-900/0'" class="cursor-pointer card border border-2 hover:scale-[1.025]" style="--box-glow-color: var(--color-amber-900)">
+            <div @click="changeTab(tabCombatArts)" x-bind:class="selectedTab === tabCombatArts ? 'border-amber-900/60 border-b-yellow-700/60 bg-gradient-to-tl from-amber-900/20 to-gray-900/0 ' : 'border-gray-700/60 bg-gradient-to-tl from-gray-700/20 to-gray-900/0'" class="cursor-pointer card border border-2 hover:scale-[1.025]" style="--box-glow-color: var(--color-amber-900)">
                 <div class="card-body items-center text-center gap-2 py-6">
                     <div class="flex items-center gap-2">
                         <i class="ti ti-barbell text-xl text-amber-400"></i>
                         <h3 class="u-font-cinzel text-xl font-bold text-gray-300 uppercase tracking-widest">Training Points</h3>
                     </div>
                     <div class="flex items-center">
-                        <h1 x-bind:class="selectedTab === tab1 ? 'text-amber-400 u-text-glow' : 'text-gray-400'" class="font-thin u-font-cinzel text-9xl" style="--text-glow-color: var(--color-amber-400)" x-text="freeTrainingPoints">1</h1>
-                        <h3 x-bind:class="selectedTab === tab1 ? 'text-amber-400' : 'text-gray-400'" class="u-font-cinzel text-xl">
+                        <h1 x-bind:class="selectedTab === tabCombatArts ? 'text-amber-400 u-text-glow' : 'text-gray-400'" class="font-thin u-font-cinzel text-9xl" style="--text-glow-color: var(--color-amber-400)" x-text="freeTrainingPoints">1</h1>
+                        <h3 x-bind:class="selectedTab === tabCombatArts ? 'text-amber-400' : 'text-gray-400'" class="u-font-cinzel text-xl">
                             / <span x-text="totalTrainingPoints">1</span>
                         </h3>
                     </div>
                     <div class="flex gap-1">
 
+                        <div x-show="Object.entries(character.combatArts).length === 0">
+                            <span class="inline-flex items-center gap-2 border border-transparent py-1 font-medium">
+                                <i class="text-amber-400 text-lg ti ti-info-circle"></i>
+                                <span>Spend points to acquire talents & learn skills.</span>
+                            </span>
+                        </div>
+
                         <template x-for="(value, key) in character.combatArts">
 
-                            <span class="inline-flex items-center gap-2 rounded-lg bg-gray-400/10 px-3 py-1 font-medium">
+                            <span class="inline-flex items-center gap-2 rounded-lg border border-amber-900/60 px-3 py-1 font-medium">
                                 <i class="text-amber-400 text-lg" x-bind:class="getCombatArt(key)?.icon"></i>
                                 <span x-text="getCombatArt(key)?.name"></span>
 
@@ -138,17 +152,27 @@
             </div>
 
             <!-- Memory Slots -->
-            <div @click="selectedTab = tab2" x-bind:class="selectedTab === tab2 ? 'border-blue-900/60 border-b-cyan-700/60 bg-gradient-to-tl from-blue-900/33 to-gray-900/0 ' : 'border-gray-700/60 bg-gradient-to-tl from-gray-700/33 to-gray-900/0'" class="cursor-pointer card border border-2 hover:scale-[1.025]">
+            <div @click="changeTab(tabSkills)" x-bind:class="selectedTab === tabSkills ? 'border-blue-900/60 border-b-cyan-700/60 bg-gradient-to-tl from-blue-900/33 to-gray-900/0 ' : 'border-gray-700/60 bg-gradient-to-tl from-gray-700/33 to-gray-900/0'" class="cursor-pointer card border border-2 hover:scale-[1.025]">
                 <div class="card-body items-center text-center gap-2 py-6">
                     <div class="flex items-center gap-2">
                         <i class="ti ti-brain text-xl text-blue-400"></i>
                         <h3 class="u-font-cinzel text-xl font-bold text-gray-300 uppercase tracking-widest">Memory Slots</h3>
                     </div>
                     <div class="flex items-center">
-                        <h1 x-bind:class="selectedTab === tab2 ? 'text-blue-400 u-text-glow' : 'text-gray-400'" class="font-thin u-font-cinzel text-9xl" style="--text-glow-color: var(--color-blue-400)" x-text="freeMemorySlots">1</h1>
-                        <h3 x-bind:class="selectedTab === tab2 ? 'text-blue-400' : 'text-gray-400'" class="u-font-cinzel text-xl">
+                        <h1 x-bind:class="selectedTab === tabSkills ? 'text-blue-400 u-text-glow' : 'text-gray-400'" class="font-thin u-font-cinzel text-9xl" style="--text-glow-color: var(--color-blue-400)" x-text="freeMemorySlots">1</h1>
+                        <h3 x-bind:class="selectedTab === tabSkills ? 'text-blue-400' : 'text-gray-400'" class="u-font-cinzel text-xl">
                             / <span x-text="totalMemorySlots">1</span>
                         </h3>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-center gap-1">
+
+                        <div>
+                            <span class="inline-flex items-center gap-2 border border-transparent py-1 font-medium">
+                                <i class="text-blue-400 text-lg ti ti-info-circle"></i>
+                                <span>Memorize learned skills into available slots.</span>
+                            </span>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -156,23 +180,22 @@
         </div>
 
         <!-- Tab: Combat Arts -->
-        <div x-show="selectedTab === tab1" class="flex flex-col gap-8">
+        <div x-show="selectedTab === tabCombatArts" class="flex flex-col gap-8">
 
             <!-- Divider -->
-            <div class="u-divider-amber u-font-cinzel font-semibold text-xl">
+            <div class="u-divider u-font-cinzel font-semibold text-xl" style="--divider-color: var(--color-amber-400);">
                 <div class="flex items-center gap-2">
                     <i class="ti ti-swords text-amber-400"></i>
                     Combat Arts
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <template x-for="combatArt in combatArts">
 
                     <!-- Combat Art -->
                     <div x-bind:class="getMasteryLevel(combatArt.key) > 0 ? 'border-amber-900 u-box-glow from-amber-900/60 to-gray-900/0' : 'border-amber-900/60 border-b-yellow-700/60 from-amber-900/20 to-gray-900/0'" class="card border border-2 bg-gradient-to-tl " style="--box-glow-color: var(--color-amber-900)">
-                        <div class="card-body items-center text-center gap-6 py-6">
+                        <div class="card-body items-center text-center gap-4 py-6">
 
                             <!-- Header -->
                             <div class="w-full flex justify-between gap-2">
@@ -194,7 +217,7 @@
                                     <!-- Mastery Level Circles -->
                                     <div class="flex gap-1">
                                         <template x-for="i in maxMasteryLevel">
-                                            <div x-bind:class="getMasteryLevel(combatArt.key) >= i ? 'bg-amber-400 border border-amber-400/20 u-box-glow' : 'bg-amber-900/10 border border-amber-400/20'" class="w-3.5 h-3.5 rounded-full" style="--box-glow-color: var(--color-amber-400)"></div>
+                                            <div x-bind:class="getMasteryLevel(combatArt.key) >= i ? 'bg-amber-400 border border-amber-400/20 u-box-glow' : 'bg-amber-900/10 border border-amber-400/20'" class="w-3.5 h-3.5 rounded-full" style="--box-glow-color: var(--color-amber-400);"></div>
                                         </template>
                                     </div>
                                     <!-- Train/Forget Mastery Level -->
@@ -210,7 +233,7 @@
                             </div>
 
                             <!-- Divider -->
-                            <div class="u-divider-amber u-font-cinzel label w-full">
+                            <div class="u-divider u-font-cinzel label w-full" style="--divider-color: var(--color-amber-400);">
                                 <div class="flex items-center gap-2">
                                     About
                                 </div>
@@ -221,14 +244,14 @@
                             </div>
 
                             <!-- Divider -->
-                            <div class="u-divider-amber u-font-cinzel label w-full">
+                            <div class="u-divider u-font-cinzel label w-full" style="--divider-color: var(--color-amber-400);">
                                 <div class="flex items-center gap-2">
                                     Talents
                                 </div>
                             </div>
 
                             <!-- Talents -->
-                            <div class="w-full flex flex-col gap-3">
+                            <div class="w-full flex flex-col gap-4">
                                 <template x-for="talent in getTalents(combatArt.key)">
                                     <div class="flex gap-4 items-start">
                                         <!-- Icon -->
@@ -238,24 +261,17 @@
                                             <i x-bind:class="getMasteryLevel(combatArt.key) >= talent.level ? 'ti-check' : 'ti-lock'" class="ti"></i>
                                         </div>
 
-                                        <!-- Talent Info -->
+                                        <!-- Talent Summary -->
                                         <div class="flex-1 flex flex-col items-start justify-center gap-1 text-justify">
                                             <div class="inline-flex items-center gap-2">
                                                 <h3 x-bind:class="getMasteryLevel(combatArt.key) >= talent.level ? 'u-text-glow text-amber-400' : 'text-amber-400/75'" class="u-font-cinzel font-bold text-amber-400 break-words" x-text="'Level ' + talent.level"></h3>
                                                 <span class="h-3 w-px bg-gray-400/40"></span>
-                                                <h3 x-bind:class="getMasteryLevel(combatArt.key) >= talent.level ? 'u-text-glow text-amber-400' : 'text-gray-100'" class="u-font-cinzel font-bold text-amber-400 break-words" x-text="talent.name"></h3>
+                                                <h3 x-bind:class="getMasteryLevel(combatArt.key) >= talent.level ? 'u-text-glow text-amber-400' : 'text-gray-300'" class="u-font-cinzel font-bold text-amber-400 text-lg break-words" x-text="talent.name"></h3>
                                             </div>
-                                            <p class="u-font-crimson-text text-gray-300 break-words" x-text="talent.description"></p>
+                                            <p class="u-font-crimson-text text-gray-300 text-lg break-words" x-text="talent.description"></p>
                                         </div>
                                     </div>
                                 </template>
-                            </div>
-
-                            <!-- Divider -->
-                            <div class="u-divider-amber u-font-cinzel label w-full">
-                                <div class="flex items-center gap-2">
-                                    Skills
-                                </div>
                             </div>
 
                         </div>
@@ -265,14 +281,120 @@
             </div>
         </div>
 
-        <div x-show="selectedTab === tab2" class="flex flex-col gap-8">
+        <!-- Tab: Memory Slots -->
+        <div x-show="selectedTab === tabSkills" class="flex flex-col gap-8">
 
             <!-- Divider -->
-            <div class="u-divider-amber u-font-cinzel font-semibold text-xl">
+            <div class="u-divider u-font-cinzel font-semibold text-xl" style="--divider-color: var(--color-blue-400);">
                 <div class="flex items-center gap-2">
                     <i class="ti ti-swords text-blue-400"></i>
+                    Combat Arts
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-6">
+                <template x-for="combatArt in combatArts">
+
+                    <!-- Combat Art -->
+                    <div @click="currentCombatArt = combatArt" x-bind:class="currentCombatArt.key === combatArt.key ? 'border-blue-900 u-box-glow from-blue-900/60 to-gray-900/0' : 'border-blue-900/60 from-blue-900/20 to-gray-900/0'" class="cursor-pointer card border border-2 bg-gradient-to-tl " style="--box-glow-color: var(--color-blue-900)">
+                        <div class="card-body items-center text-center gap-4 py-6">
+
+                            <!-- Header -->
+                            <div class="w-full flex flex-col items-center justify-center gap-4">
+                                <!-- Icon -->
+                                <div x-bind:class="currentCombatArt.key === combatArt.key ? 'u-text-glow text-blue-400 border-blue-900' : 'text-blue-400/60 border-blue-900/60'" class="w-16 h-16 rounded-lg flex flex-none items-center justify-center border text-2xl" style="--text-glow-color: var(--color-blue-400);">
+                                    <i x-bind:class="combatArt.icon"></i>
+                                </div>
+                                <!-- Description -->
+                                <div class="flex flex-col items-start justify-center">
+                                    <h2 x-bind:class="currentCombatArt.key === combatArt.key ? 'text-blue-400 u-text-glow' : 'text-blue-400/75'" class="u-font-cinzel text-2xl font-bold tracking-widest" style="--text-glow-color: var(--color-blue-400);" x-text="combatArt.name"></h2>
+                                </div>
+                                <!-- Mastery Level Circles -->
+                                <div class="flex gap-1">
+                                    <template x-for="i in maxMasteryLevel">
+                                        <div :class="getMasteryLevel(combatArt.key) >= i ? 'bg-blue-400 border border-blue-400/20' + (currentCombatArt.key === combatArt.key ? ' u-box-glow' : '') : 'bg-blue-900/10 border border-blue-400/20'" class="w-3.5 h-3.5 rounded-full" style="--box-glow-color: var(--color-blue-400);"></div>
+                                    </template>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </template>
+            </div>
+
+            <!-- Divider -->
+            <div x-show="currentCombatArt" class="u-divider u-font-cinzel font-semibold text-xl" style="--divider-color: var(--color-blue-400);">
+                <div class="flex items-center gap-2">
+                    <i class="ti ti-sparkles text-blue-400"></i>
                     Skills
                 </div>
+            </div>
+
+            <div x-show="currentCombatArt" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <template x-for="skill in getSkills(currentCombatArt.key)">
+                    <template x-if="skill.key">
+
+                        <!-- Combat Art -->
+                        <div x-bind:class="getMasteryLevel(currentCombatArt.key) >= skill.level ? 'border-blue-900 u-box-glow from-blue-900/60 to-gray-900/0' : 'border-blue-900/60 border-b-sky-700/60 from-blue-900/20 to-gray-900/0'" class="card border border-2 bg-gradient-to-tl " style="--box-glow-color: var(--color-blue-900)">
+                            <div class="card-body items-center text-center gap-4 py-6">
+
+                                <!-- Header -->
+                                <div class="w-full flex justify-between gap-2">
+
+                                    <div class="flex gap-6">
+                                        <!-- Icon -->
+                                        <div x-bind:class="getMasteryLevel(currentCombatArt.key) >= skill.level ? 'u-text-glow text-blue-400 border-blue-900' : 'text-blue-400/60 border-blue-900/60'" class="w-16 h-16 rounded-lg flex items-center justify-center border text-2xl">
+                                            <i x-bind:class="getMasteryLevel(currentCombatArt.key) >= skill.level ? currentCombatArt.icon : 'ti ti-lock'"></i>
+                                        </div>
+                                        <!-- Description -->
+                                        <div class="flex flex-col items-start justify-end h-16">
+                                            <h2 x-bind:class="getMasteryLevel(currentCombatArt.key) >= skill.level ? 'text-gray-300' : 'text-gray-300/75'" class="u-font-cinzel text-2xl font-bold tracking-widest" x-text="skill.name"></h2>
+                                            <h3 class="u-font-crimson-text text-lg text-blue-400" x-text="currentCombatArt.name + ' Level ' + skill.level"></h3>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start">
+                                        <span class="inline-flex flex-none items-center gap-2 rounded-full border border-blue-400/60 px-3 py-1 font-medium">
+                                            <i :class="skill.type == 'Action' ? 'ti-circle' : skill.type == 'Reaction' ? 'ti-triangle' : 'ti-flare'" class="text-blue-400 ti"></i>
+                                            <span x-text="skill.type"></span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Divider -->
+                                <div class="u-divider u-font-cinzel label w-full" style="--divider-color: var(--color-blue-400);">
+                                    <div class="flex">
+                                        About
+                                    </div>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="u-font-crimson-text text-lg text-justify text-gray-300" x-text="skill.description">
+                                </div>
+
+                                <!-- Divider -->
+                                <div class="u-divider u-font-cinzel label w-full" style="--divider-color: var(--color-blue-400);">
+                                    <div class="flex">
+                                        Properties
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-4 gap-2">
+
+                                </div>
+
+                                <!-- Divider -->
+                                <div class="u-divider u-font-cinzel label w-full" style="--divider-color: var(--color-blue-400);">
+                                    <div class="flex">
+                                        Effects
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+                </template>
             </div>
 
         </div>

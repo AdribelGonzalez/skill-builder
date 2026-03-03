@@ -1,3 +1,4 @@
+const DOCUMENTATION_URL = 'https://docs.google.com/document/d/1t5jIkLIWjqsEP525-vAQ4HLvIFUObJaSvhaPdM4am98/edit?usp=sharing';
 const SPREADSHEET_ID = '1W3uegMWZvpnOwHApNfV6ZfNKUWDRYSfiMhbOtZzsv_U';
 const KEYS = ['combatArts', 'talents', 'skills'];
 
@@ -18,7 +19,15 @@ const BASE_RP = 2;
 const MAX_RP = 4;
 
 // Movement (ft) per AP
-const MOVEMENT = 10;
+const MOVEMENT = 5;
+
+// AP Cost of Difficult Terraint
+const DIFFICULT_TERRAIN = 1;
+
+// AP Cost to enter Stealth
+const STEALTH = 2;
+
+
 
 // Tabs
 const TAB_COMBAT_ARTS = 'combat-arts';
@@ -32,15 +41,13 @@ const createCharacter = () => ({
     masteries: [],
     talents: {},
     skills: {},
+    memories: [],
 });
 
 function app() {
     return {
-        character: createCharacter(),
-
-        combatArts: [],
-        talents: {},
-        skills: {},
+        // Constants
+        documentationUrl: DOCUMENTATION_URL,
 
         minLevel: MIN_LEVEL,
         maxLevel: MAX_LEVEL,
@@ -57,9 +64,19 @@ function app() {
 
         movement: MOVEMENT,
 
-        tab1: TAB_COMBAT_ARTS,
-        tab2: TAB_SKILLS,
+        // Dataset
+        combatArts: [],
+        talents: {},
+        skills: {},
+
+        // Tabs
+        tabCombatArts: TAB_COMBAT_ARTS,
+        tabSkills: TAB_SKILLS,
         selectedTab: DEFAULT_TAB,
+        selectedCombatArt: null,
+
+        // Character
+        character: createCharacter(),
 
         // Gain level
         levelUp() {
@@ -133,6 +150,10 @@ function app() {
             return this.talents.filter(p => p.combat_arts_key === key) || [];
         },
 
+        getSkills(key) {
+            return this.skills.filter(p => p.combat_arts_key === key) || [];
+        },
+
         getMasteryLevel(key) {
             return this.character.combatArts?.[key] ?? 0;
         },
@@ -169,7 +190,19 @@ function app() {
 
         async init() {
             this.load();
+            this.loadTab();
             this.loadCharacter();
+        },
+
+        loadTab() {
+            const saved = localStorage.getItem('tab');
+            if (saved)
+                this.selectedTab = saved;
+        },
+
+        changeTab(tab) {
+            this.selectedTab = tab;
+            localStorage.setItem('tab', tab);
         },
 
         async load() {
@@ -194,7 +227,6 @@ function app() {
                 await this.download();
             }
 
-            console.log(this);
         },
 
         async download() {
