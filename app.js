@@ -73,7 +73,31 @@ function app() {
         tabCombatArts: TAB_COMBAT_ARTS,
         tabSkills: TAB_SKILLS,
         selectedTab: DEFAULT_TAB,
-        selectedCombatArt: null,
+
+        loadTab() {
+            const saved = localStorage.getItem('selectedTab');
+            if (saved)
+                this.selectedTab = saved;
+        },
+
+        changeTab(tab) {
+            this.selectedTab = tab;
+            localStorage.setItem('selectedTab', tab);
+        },
+
+        // Selected Combat Art in the Skills tab
+        currentCombatArt: {},
+
+        loadCurrentCombatArt() {
+            const saved = localStorage.getItem('currentCombatArt');
+            if (saved)
+                this.currentCombatArt = JSON.parse(saved);
+        },
+
+        changeCurrentCombatArt(combatArt) {
+            this.currentCombatArt = combatArt;
+            localStorage.setItem('currentCombatArt', JSON.stringify(combatArt));
+        },
 
         // Character
         character: createCharacter(),
@@ -192,17 +216,7 @@ function app() {
             this.load();
             this.loadTab();
             this.loadCharacter();
-        },
-
-        loadTab() {
-            const saved = localStorage.getItem('tab');
-            if (saved)
-                this.selectedTab = saved;
-        },
-
-        changeTab(tab) {
-            this.selectedTab = tab;
-            localStorage.setItem('tab', tab);
+            this.loadCurrentCombatArt();
         },
 
         async load() {
@@ -272,9 +286,11 @@ function app() {
 
         resetCharacter() {
             this.character = createCharacter();
+            this.currentCombatArt = {};
 
             try {
                 localStorage.removeItem('character');
+                localStorage.removeItem('currentCombatArt');
             } catch (error) {
                 console.error("Unable to reset character", error);
             }

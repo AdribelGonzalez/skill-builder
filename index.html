@@ -296,7 +296,7 @@
                 <template x-for="combatArt in combatArts">
 
                     <!-- Combat Art -->
-                    <div @click="currentCombatArt = combatArt" x-bind:class="currentCombatArt.key === combatArt.key ? 'border-blue-900 u-box-glow from-blue-900/60 to-gray-900/0' : 'border-blue-900/60 from-blue-900/20 to-gray-900/0'" class="cursor-pointer card border border-2 bg-gradient-to-tl " style="--box-glow-color: var(--color-blue-900)">
+                    <div @click="changeCurrentCombatArt(combatArt)" x-bind:class="currentCombatArt.key === combatArt.key ? 'border-blue-900 u-box-glow from-blue-900/60 to-gray-900/0' : 'border-blue-900/60 from-blue-900/20 to-gray-900/0'" class="cursor-pointer card border border-2 bg-gradient-to-tl " style="--box-glow-color: var(--color-blue-900)">
                         <div class="card-body items-center text-center gap-4 py-6">
 
                             <!-- Header -->
@@ -380,15 +380,56 @@
                                     </div>
                                 </div>
 
-                                <div class="grid grid-cols-4 gap-2">
-
-                                </div>
-
-                                <!-- Divider -->
-                                <div class="u-divider u-font-cinzel label w-full" style="--divider-color: var(--color-blue-400);">
-                                    <div class="flex">
-                                        Effects
+                                <div class="w-full grid grid-cols-2 gap-2">
+                                    <!--
+                                    <div class="flex flex-col gap-1">
+                                        Cost
+                                        <div class="flex justify-center gap-1">
+                                            <template x-for="i in Number(skill.cost)">
+                                                <i class="ti ti-circle text-blue-400"></i>
+                                            </template>
+                                        </div>
                                     </div>
+
+                                    <div class="flex flex-col gap-1">
+                                        Cooldown
+                                        <span x-text="skill.cooldown + ' Turn' + (Number(skill.cooldown) != 1 ? 's' : '')"></span>
+                                    </div>
+                                    -->
+                                    <div class="flex flex-col items-center gap-1">
+                                        <div class="flex items-center gap-1">
+                                            <i class="ti ti-triangle-square-circle text-blue-400 text-lg"></i>
+                                            <span class="u-font-cinzel text-xl">Cost</span>
+                                        </div>
+                                        <div class="flex grow items-center justify-center gap-1">
+                                            <template x-for="i in Number(skill.cost)">
+                                                <i :class="skill.type == 'Action' ? 'ti-circle' : skill.type == 'Reaction' ? 'ti-triangle' : 'ti-flare'" class="ti text-blue-400"></i>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <template x-for="prop in [
+                                        { icon: 'ti ti-rotate-2 rotate-180', label: 'Cooldown', value: skill.cooldown },
+                                        { icon: 'ti ti-line', label: 'Range', value: skill.range },
+                                        { icon: 'ti ti-viewfinder', label: 'Target', value: skill.target }
+                                    ]">
+
+                                        <template x-if="prop.value">
+
+                                            <div class="flex flex-col items-center gap-1">
+                                                <div class="flex items-center gap-1">
+                                                    <i :class="prop.icon" class="text-blue-400 text-lg"></i>
+                                                    <span class="u-font-cinzel text-xl" x-text="prop.label"></span>
+                                                </div>
+                                                <div class="flex grow items-center justify-center gap-1">
+                                                    <span class="u-font-crimson-text font-bold text-lg text-blue-400" x-text="prop.value">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                    </template>
+
                                 </div>
 
                             </div>
